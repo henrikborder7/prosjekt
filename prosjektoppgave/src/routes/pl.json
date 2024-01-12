@@ -10,6 +10,12 @@
         "nummer": 9,
         "antallMål":6,
         "antallAssist":6
+    },
+    {
+        "navn":"Mohammed Salah",
+        "nummer": 11,
+        "antallMål":14,
+        "antallAssist":8
     }
     ]}
 ]
