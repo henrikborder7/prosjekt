@@ -1,0 +1,15 @@
+[
+    {"lag":"Liverpool",
+    "seier":12,
+    "uavgjort": 7,
+    "tap": 1,
+    "mål":43,
+    "målMot":18,
+    "spillere":[{
+        "navn":"Darwin Nunez",
+        "nummer": 9,
+        "antallMål":6,
+        "antallAssist":6
+    }
+    ]}
+]
