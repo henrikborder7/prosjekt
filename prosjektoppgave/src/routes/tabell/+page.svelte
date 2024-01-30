@@ -14,6 +14,17 @@
         return "";
     }
 
+    function skEtterSpiller(navn) {
+        let i = 0
+        while(i < json.elements.length) {
+            if (json.elements[i].first_name === navn) {
+                return json.elements[i].first_name+" "+ json.elements[i].second_name;
+            }
+            i = i++
+        }
+        return "";
+    }
+
     json.elements.sort(function(a,b){
         return b.goals_scored - a.goals_scored
     });
@@ -28,7 +39,7 @@
 </label>
 
 <p>{sokEtterSpiller(navn)}</p>
-
+<p>{skEtterSpiller(navn)}</p>
 <p>{json.elements[0].first_name}</p>
 
 <ul>
