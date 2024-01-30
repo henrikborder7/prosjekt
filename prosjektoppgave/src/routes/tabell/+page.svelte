@@ -3,7 +3,7 @@
     let json = JSON.parse(JSON.stringify(fil));
 
     let navn = "";
-    let navner = []
+
 
 
     function sokEtterSpiller(navn) {
@@ -50,10 +50,10 @@ visSpillere(matchendeSpillere)
 <label><input bind:value={navn}>Antal mål
 </label>
 
-<p>{navner}</p>
 
 <p>{sokEtterSpiller(navn)}</p>
 <p>{visSpillere(navn)}</p>
+<p>{skEtterSpiller(navn)}</p>
 
 <p>{json.elements[0].first_name}</p>
 
