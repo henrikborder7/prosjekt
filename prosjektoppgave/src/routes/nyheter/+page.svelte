@@ -41,9 +41,6 @@
         <label>Digital utgave<input type="checkbox" bind:checked={digital}/></label><br>
         <label>Fysisk utgave<input type="checkbox" bind:checked={fysisk}/></label><br>
 
-        {#if !(digital || fysisk)&&navn&&email&&postnummer}
-            <p style="color: red;">Velg enten Digital eller Fysisk utgave</p>
-        {/if}
 
         {#if fysisk==true }
             <h3>Adresse</h3>
