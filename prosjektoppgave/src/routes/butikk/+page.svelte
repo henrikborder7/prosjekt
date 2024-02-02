@@ -2,11 +2,14 @@
     let cart = 0;
     let pris = 0;
     let cartItems = [];
-
+  
     let produkt = [
         { id: 1, name: "Ikke mas-koppen", pris: 120, beskrivelse: "Få ro imens du ser Premier-leauge, og kjøp koppen nå!", bilde: "https://www.godthaill.com/cdn/shop/products/ikkemaspremierleaguemugrek.jpg?v=1663324199" },
         { id: 2, name: "PL-sekken", pris: 349, beskrivelse: "Bær med deg det du trenger, og i tilegg se classy ut!", bilde: "https://www.tradeinn.com/f/13736/137368906/nike-premier-league-backpack.jpg" },
-        { id: 3, name: "Mini PL-trofee", pris: 199, beskrivelse: "Et mini trofee, perfekt for hylla! Høyde 16cm.", bilde: "https://img.fruugo.com/product/3/13/1267893133_max.jpg" }
+        { id: 3, name: "Mini PL-trofee", pris: 199, beskrivelse: "Et mini trofee, perfekt for hylla! Høyde 16cm.", bilde: "https://img.fruugo.com/product/3/13/1267893133_max.jpg" },
+        { id: 4, name: "Offisiell ball 23/24", pris: 1499, beskrivelse: "Årets ofisiell kampball. Ypperste kvalitet, og med teknologi som gjør at ballen suser inn i nettmaskene", bilde: "https://www.torshovsport.no/pub_images/original/79718.jpg" },
+        { id: 5, name: "Nike leggbeskyttere", pris: 479, beskrivelse: "Robuste leggbeskyttere med leggskinn holder. Material: syntetisk gjenvunnet plastikk.", bilde: "https://lovellcdn.b-cdn.net/products/242469.jpg" },
+        { id: 9, name: "Manchester United FC ", pris: 0, beskrivelse: "Rotten klubb gis bort.", bilde: "https://yt3.googleusercontent.com/TDwtV-eV1UitynrmZjOnnlFCsNeoNYG3z15fDsr4P8xJkSUqWhFYC6a77namw4P0TiYS2No7=s900-c-k-c0x00ffffff-no-rj" }
     ];
 
     function addProductToCart(product) {
@@ -78,6 +81,7 @@
 
     <main>
         {#each produkt as product (product.id)}
+        {#if product.id<9}
             <div class="product">
                 <h2>{product.name}</h2>
                 <img src={product.bilde} alt={"Bilde av " + product.name} />
@@ -85,6 +89,9 @@
                 <p>Pris: {product.pris},-</p>
                 <button on:click={() => addProductToCart(product)}>Legg til i handlevogna</button>
             </div>
+            {:else}
+            <button>Last inn fler</button>
+            {/if}
         {/each}
     </main>
 
@@ -129,12 +136,53 @@
         </div>
       </div>
 </body>
-
+<footer>
+    <div class="social-icons">
+        <a href="https://twitter.com/premierleague" target="_blank" rel="noopener noreferrer">
+            <img src="https://about.twitter.com/content/dam/about-twitter/x/brand-toolkit/logo-black.png.twimg.1920.png" alt="Twitter">
+        </a>
+        <a href="https://www.instagram.com/premierleague/" target="_blank" rel="noopener noreferrer">
+            <img src="https://www.edigitalagency.com.au/wp-content/uploads/new-Instagram-logo-png-full-colour-glyph.png" alt="Instagram">
+        </a>
+        <a href="https://www.facebook.com/premierleague/" target="_blank" rel="noopener noreferrer">
+            <img src="https://www.freeiconspng.com/uploads/facebook-logo-png-white-facebook-logo-png-white-facebook-icon-png--32.png" alt="Facebook">
+        </a>
+    </div>
+    <p>&copy; 2024 PL-butikken. Alle rettigheter reservert.</p>
+</footer>
 <style>
-    
+     footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .social-icons a {
+        text-decoration: none;
+        color: white;
+    }
+
+    .social-icons img {
+        width: 30px; /* Adjust the size as needed */
+        height: 30px; /* Adjust the size as needed */
+    }
+
     body {
         font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
+        background-color: #f7f6f6;
         margin: 0;
         padding: 0;
     }
@@ -159,7 +207,7 @@
         transition: 0.3s;
         padding:10px 15px 10px 15px
     }
-    a:hover{
+    nav a:hover{
         background-color: rgb(197, 233, 201);
         transition: 0.3s;
     }
