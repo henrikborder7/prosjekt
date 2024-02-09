@@ -2,49 +2,101 @@
     let cart = 0;
     let pris = 0;
     let cartItems = [];
-  
-    let produkt = [
-        { id: 1, name: "Ikke mas-koppen", pris: 120, beskrivelse: "Få ro imens du ser Premier-leauge, og kjøp koppen nå!", bilde: "https://www.godthaill.com/cdn/shop/products/ikkemaspremierleaguemugrek.jpg?v=1663324199" },
-        { id: 2, name: "PL-sekken", pris: 349, beskrivelse: "Bær med deg det du trenger, og i tilegg se classy ut!", bilde: "https://www.tradeinn.com/f/13736/137368906/nike-premier-league-backpack.jpg" },
-        { id: 3, name: "Mini PL-trofee", pris: 199, beskrivelse: "Et mini trofee, perfekt for hylla! Høyde 16cm.", bilde: "https://img.fruugo.com/product/3/13/1267893133_max.jpg" },
-        { id: 4, name: "Offisiell ball 23/24", pris: 1499, beskrivelse: "Årets ofisiell kampball. Ypperste kvalitet, og med teknologi som gjør at ballen suser inn i nettmaskene", bilde: "https://www.torshovsport.no/pub_images/original/79718.jpg" },
-        { id: 5, name: "Nike leggbeskyttere", pris: 479, beskrivelse: "Robuste leggbeskyttere med leggskinn holder. Material: syntetisk gjenvunnet plastikk.", bilde: "https://lovellcdn.b-cdn.net/products/242469.jpg" },
-        { id: 6, name: "Manchester United FC ", pris: 0, beskrivelse: "Rotten klubb gis bort.", bilde: "https://yt3.googleusercontent.com/TDwtV-eV1UitynrmZjOnnlFCsNeoNYG3z15fDsr4P8xJkSUqWhFYC6a77namw4P0TiYS2No7=s900-c-k-c0x00ffffff-no-rj" },
-        { id: 7, name: "Liverpool drakt 24/25", pris: 1189, beskrivelse: "Liverpool bortedrakt 2024/2025.", bilde: "https://cdn.fifakitcreator.com/kits/2023/11/08/654ba929ee515.jpg" },
-        { id: 8, name: "Nike Fotball-vannflaske", 
-    pris: 160, 
-    beskrivelse: "Hold deg hydrert under trening og kamper med denne høykvalitets vannflasken fra Nike.",
-    bilde: "https://images.sport1.no/getpic.php?vnr=200004844613&imageFileType=WEBP&width=1200&height=1200"
-},
-{ 
-    id: 9,
-    name: "Adidas Fotball-ryggsekk", 
-    pris: 299, 
-    beskrivelse: "En praktisk ryggsekk med plass til fotballsko, klær og andre nødvendigheter. Adidas-stripene gir den et stilig preg.",
-    bilde: "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/7e872005a1af4552a6d3af3c0092129f_9366/Football_Ryggsekk_Rod_HN5732_01_standard.jpg"
-},
-{ 
-    id: 10,
-    name: "Puma Fotball-hansker", 
-    pris: 979, 
-    beskrivelse: "Ultimat grep på ballen med moderne griptec teknologi. Redd alle skudd med de komfortable fotballhanskene fra Puma.",
-    bilde: "https://www.torshovsport.no/pub_images/original/78675.jpg"
-},
-{ 
-    id: 11,
-    name: "Select Fotball", 
-    pris: 389, 
-    beskrivelse: "Offisiell Select-fotball for optimal ytelse. Designet for presise spark og god ballkontroll. Str. 5",
-    bilde: "https://thumblr.uniid.it/product/227026/e1fe4cb3146e.jpg"
-},
-{ 
-    id: 12,
-    name: "Fotballnett fra Select", 
-    pris: 399, 
-    beskrivelse: "Praktisk nett for å øve på skudd og forbedre presisjonen. Enkelt å montere og ta med til treningsfeltet. Plass til 9 baller.",
-    bilde: "https://thumblr.uniid.it/product/29044/aca0f8d5f6d3.jpg"
-}
 
+    let produkt = [
+        {
+            id: 1,
+            name: "Ikke mas-koppen",
+            pris: 120,
+            beskrivelse:
+                "Få ro imens du ser Premier-leauge, og kjøp koppen nå!",
+            bilde: "https://www.godthaill.com/cdn/shop/products/ikkemaspremierleaguemugrek.jpg?v=1663324199",
+        },
+        {
+            id: 2,
+            name: "PL-sekken",
+            pris: 349,
+            beskrivelse:
+                "Bær med deg det du trenger, og i tilegg se classy ut!",
+            bilde: "https://www.tradeinn.com/f/13736/137368906/nike-premier-league-backpack.jpg",
+        },
+        {
+            id: 3,
+            name: "Mini PL-trofee",
+            pris: 199,
+            beskrivelse: "Et mini trofee, perfekt for hylla! Høyde 16cm.",
+            bilde: "https://img.fruugo.com/product/3/13/1267893133_max.jpg",
+        },
+        {
+            id: 4,
+            name: "Offisiell ball 23/24",
+            pris: 1499,
+            beskrivelse:
+                "Årets ofisiell kampball. Ypperste kvalitet, og med teknologi som gjør at ballen suser inn i nettmaskene",
+            bilde: "https://www.torshovsport.no/pub_images/original/79718.jpg",
+        },
+        {
+            id: 5,
+            name: "Nike leggbeskyttere",
+            pris: 479,
+            beskrivelse:
+                "Robuste leggbeskyttere med leggskinn holder. Material: syntetisk gjenvunnet plastikk.",
+            bilde: "https://lovellcdn.b-cdn.net/products/242469.jpg",
+        },
+        {
+            id: 6,
+            name: "Manchester United FC ",
+            pris: 0,
+            beskrivelse: "Rotten klubb gis bort.",
+            bilde: "https://yt3.googleusercontent.com/TDwtV-eV1UitynrmZjOnnlFCsNeoNYG3z15fDsr4P8xJkSUqWhFYC6a77namw4P0TiYS2No7=s900-c-k-c0x00ffffff-no-rj",
+        },
+        {
+            id: 7,
+            name: "Liverpool drakt 24/25",
+            pris: 1189,
+            beskrivelse: "Liverpool bortedrakt 2024/2025.",
+            bilde: "https://cdn.fifakitcreator.com/kits/2023/11/08/654ba929ee515.jpg",
+        },
+        {
+            id: 8,
+            name: "Nike Fotball-vannflaske",
+            pris: 160,
+            beskrivelse:
+                "Hold deg hydrert under trening og kamper med denne høykvalitets vannflasken fra Nike.",
+            bilde: "https://images.sport1.no/getpic.php?vnr=200004844613&imageFileType=WEBP&width=1200&height=1200",
+        },
+        {
+            id: 9,
+            name: "Adidas Fotball-ryggsekk",
+            pris: 299,
+            beskrivelse:
+                "En praktisk ryggsekk med plass til fotballsko, klær og andre nødvendigheter. Adidas-stripene gir den et stilig preg.",
+            bilde: "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/7e872005a1af4552a6d3af3c0092129f_9366/Football_Ryggsekk_Rod_HN5732_01_standard.jpg",
+        },
+        {
+            id: 10,
+            name: "Puma Fotball-hansker",
+            pris: 979,
+            beskrivelse:
+                "Ultimat grep på ballen med moderne griptec teknologi. Redd alle skudd med de komfortable fotballhanskene fra Puma.",
+            bilde: "https://www.torshovsport.no/pub_images/original/78675.jpg",
+        },
+        {
+            id: 11,
+            name: "Select Fotball",
+            pris: 389,
+            beskrivelse:
+                "Offisiell Select-fotball for optimal ytelse. Designet for presise spark og god ballkontroll. Str. 5",
+            bilde: "https://thumblr.uniid.it/product/227026/e1fe4cb3146e.jpg",
+        },
+        {
+            id: 12,
+            name: "Fotballnett fra Select",
+            pris: 399,
+            beskrivelse:
+                "Praktisk nett for å øve på skudd og forbedre presisjonen. Enkelt å montere og ta med til treningsfeltet. Plass til 9 baller.",
+            bilde: "https://thumblr.uniid.it/product/29044/aca0f8d5f6d3.jpg",
+        },
     ];
 
     function addProductToCart(product) {
@@ -53,7 +105,12 @@
         if (existingItem) {
             existingItem.quantity += 1;
         } else {
-            cartItems.push({ id: product.id, name: product.name, quantity: 1, pris: product.pris });
+            cartItems.push({
+                id: product.id,
+                name: product.name,
+                quantity: 1,
+                pris: product.pris,
+            });
         }
         pris += product.pris;
         updateCart();
@@ -85,12 +142,12 @@
 
     function updateCart() {
         cart = cartItems.reduce((total, item) => total + item.quantity, 0);
-        console.log("cart:", cart, "Cartitems:", cartItems)
+        console.log("cart:", cart, "Cartitems:", cartItems);
     }
     let initialProductsToShow = 8; // Number of products to initially display
     let productsToShow = initialProductsToShow;
     const productsPerLoad = 4; // Number of products to load on each "Load More" click
-    
+
     function loadMore() {
         productsToShow += productsPerLoad; // Increase the number of products to show
         updateProducts();
@@ -108,7 +165,8 @@
 </script>
 
 <header>
-    <h1>PL-butikken</h1>
+    <h1> <img src="https://soccerarmor.com/wp-content/uploads/2022/11/Premier_League_Logo.svg_.png"alt="Premier Leauge">
+    -Butikken</h1>
 </header>
 
 <body>
@@ -134,99 +192,157 @@
     </nav>
 
     <main>
-        
-       
         {#each produkt.slice(0, productsToShow) as product (product.id)}
-        <div class="product">
+            <div class="product">
                 <h2>{product.name}</h2>
                 <img src={product.bilde} alt={"Bilde av " + product.name} />
                 <p>{product.beskrivelse}</p>
                 <p>Pris: {product.pris},-</p>
-                <button on:click={() => addProductToCart(product)}>Legg til i handlevogna</button>
+                <button on:click={() => addProductToCart(product)}
+                    >Legg til i handlevogna</button
+                >
             </div>
-        
-    {/each}
-    
-    {#if productsToShow < produkt.length}
-        <button class="load-more-or-less" on:click={loadMore}>Last inn flere</button>
-    {/if}
-    
-    {#if productsToShow > initialProductsToShow}
-    <button class="load-more-or-less" on:click={showLess}>Vis mindre</button>
-{/if}
+        {/each}
     </main>
+    <div class="knapp">
+    {#if productsToShow < produkt.length}
+        <button class="load-more-or-less" on:click={loadMore}
+            >Last inn flere</button
+        >
+    {/if}
 
+    {#if productsToShow > initialProductsToShow}
+        <button class="load-more-or-less" on:click={showLess}>Vis mindre</button
+        >
+    {/if}
+</div>
     <!-- Cart Modal -->
     <div class="cart-modal">
         <div class="cart-content">
-          <h2>Handlevognen din:</h2>
-          {#if cart > 0}
-    <div id="cart-content">
-        {#each cartItems as item}
-            <p>
-                <button on:click={() => decreaseQuantity(item.name)}>-</button>
-                {item.quantity}x {item.name}
-                <button on:click={() => increaseQuantity(item.name)}>+</button>
-            </p>
-        {/each}
-    </div>
-    <p id="cart-total">Sum: {pris},-</p>
-    <button on:click={() => (document.querySelector(".cart-modal").style.display = "none")}>Lukk</button>
-    <button on:click={() => (document.querySelector(".cart-modal2").style.display = "flex")}>Gå videre til betaling</button>
-{:else}
-    <p>Handlevognen er tom:/</p>
-    <button on:click={() => (document.querySelector(".cart-modal").style.display = "none")}>Lukk</button>
-{/if}
-        </div>
-      </div>
-
-      <div class="cart-modal2">
-        <div class="cart-content">
-          <h2>Betaling:</h2>
-          {#if cart>0}
-          {#each cartItems as item}
-              <p>
-                
-                {item.quantity}x {item.name}
-              </p>
-            {/each}
-            <p>Sum: {pris},-</p>
+            <h2>Handlevognen din:</h2>
+            {#if cart > 0}
+                <div id="cart-content">
+                    {#each cartItems as item}
+                        <p>
+                            <button on:click={() => decreaseQuantity(item.name)}
+                                >-</button
+                            >
+                            {item.quantity}x {item.name}
+                            <button on:click={() => increaseQuantity(item.name)}
+                                >+</button
+                            >
+                        </p>
+                    {/each}
+                </div>
+                <p id="cart-total">Sum: {pris},-</p>
+                <button
+                    on:click={() =>
+                        (document.querySelector(".cart-modal").style.display =
+                            "none")}>Lukk</button
+                >
+                <button
+                    on:click={() =>
+                        (document.querySelector(".cart-modal2").style.display =
+                            "flex")}>Gå videre til betaling</button
+                >
+            {:else}
+                <p>Handlevognen er tom:/</p>
+                <button
+                    on:click={() =>
+                        (document.querySelector(".cart-modal").style.display =
+                            "none")}>Lukk</button
+                >
             {/if}
-            <button on:click={() => (document.querySelector(".cart-modal2").style.display = "none")(document.querySelector(".cart-modal").style.display = "none")}>Lukk</button>
-          
         </div>
-      </div>
+    </div>
+
+    <div class="cart-modal2">
+        <div class="cart-content">
+            <h2>Betaling:</h2>
+            {#if cart > 0}
+                {#each cartItems as item}
+                    <p>
+                        {item.quantity}x {item.name}
+                    </p>
+                {/each}
+                <p>Sum: {pris},-</p>
+            {/if}
+            <button
+                on:click={() =>
+                    (document.querySelector(".cart-modal2").style.display =
+                        "none")(
+                        (document.querySelector(".cart-modal").style.display =
+                            "none"),
+                    )}>Lukk</button
+            >
+        </div>
+    </div>
 </body>
 <footer>
     <div class="social-icons">
-        <a href="https://twitter.com/premierleague" target="_blank" rel="noopener noreferrer">
-            <img src="https://about.twitter.com/content/dam/about-twitter/x/brand-toolkit/logo-black.png.twimg.1920.png" alt="Twitter">
+        <a
+            href="https://twitter.com/premierleague"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <img
+                src="https://about.twitter.com/content/dam/about-twitter/x/brand-toolkit/logo-black.png.twimg.1920.png"
+                alt="Twitter"
+            />
         </a>
-        <a href="https://www.instagram.com/premierleague/" target="_blank" rel="noopener noreferrer">
-            <img src="https://www.edigitalagency.com.au/wp-content/uploads/new-Instagram-logo-png-full-colour-glyph.png" alt="Instagram">
+        <a
+            href="https://www.instagram.com/premierleague/"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <img
+                src="https://www.edigitalagency.com.au/wp-content/uploads/new-Instagram-logo-png-full-colour-glyph.png"
+                alt="Instagram"
+            />
         </a>
-        <a href="https://www.facebook.com/premierleague/" target="_blank" rel="noopener noreferrer">
-            <img src="https://www.freeiconspng.com/uploads/facebook-logo-png-white-facebook-logo-png-white-facebook-icon-png--32.png" alt="Facebook">
+        <a
+            href="https://www.facebook.com/premierleague/"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <img
+                src="https://www.freeiconspng.com/uploads/facebook-logo-png-white-facebook-logo-png-white-facebook-icon-png--32.png"
+                alt="Facebook"
+            />
         </a>
     </div>
     <p>&copy; 2024 PL-butikken. Alle rettigheter reservert.</p>
 </footer>
+
 <style>
-    .load-more-or-less{
-        background-color: rgb(175, 182, 164) ;
-        align-content: center;
-        justify-items: center;
-        padding:20px;
-        border-radius:14px;
-        transition: 0.4s;
-        color: #262424;
+    .knapp{
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-     footer {
+    
+    .load-more-or-less {
+        background-color: rgba(191, 227, 254, 0.688);
+        align-content: center;
+        justify-content: center;
+        padding: 20px;
+        border-radius: 14px;
+        transition: 0.4s;
+        color: #252624;
+        margin-bottom:20px;
+        width:20%;
+        padding: 20px;
+    }
+    .load-more-or-less:hover {
+        background-color: #b2dde8;
+        transition: 0.3s;
+    }
+    footer {
         background-color: #333;
         color: white;
         text-align: center;
         padding: 10px 0px 10px 0px;
-        
+
         bottom: 0;
         width: 100%;
         display: flex;
@@ -258,10 +374,11 @@
     }
 
     header {
-        background-color: #333;
-        color: white;
+        background: linear-gradient(45deg,rgb(98, 255, 242),rgb(192, 242, 123),rgb(93, 242, 93), rgb(98, 255, 242) );
+        color: rgb(61, 25, 91);
         text-align: center;
         padding: 10px;
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
     }
 
     nav {
@@ -275,18 +392,18 @@
         color: #333;
         font-weight: bold;
         transition: 0.3s;
-        padding:10px 15px 10px 15px
+        padding: 10px 15px 10px 15px;
     }
-    nav a:hover{
+    nav a:hover {
         background-color: rgb(197, 233, 201);
         transition: 0.3s;
     }
 
     main {
         padding: 20px;
-      display: grid;
-      gap: 20px;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         justify-content: flex-end; /* Align products to the right */
     }
     .product {
@@ -297,10 +414,9 @@
         padding: 20px;
         margin-bottom: 20px;
         max-width: 350px;
-       
-       
+
         gap: 20px;
-       
+
         justify-content: flex-end; /* Align products to the right */
     }
 
@@ -319,7 +435,6 @@
 
     img {
         max-width: 275px;
-        
     }
 
     .cart-indicator {
