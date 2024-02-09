@@ -55,11 +55,18 @@
     {/each}
 </table>
 
+
 <style>
+
     table {
-        border-collapse: collapse;
+        border-collapse: collapse; 
+
     }
-     th td {
-        border: 2px solid black;
+     tr {
+        border: 2px solid black;        
+        padding: 10px;
+    }
+    td, th{
+        padding: 5px;
     }
 </style>
