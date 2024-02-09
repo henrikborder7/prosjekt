@@ -10,13 +10,40 @@
         { id: 4, name: "Offisiell ball 23/24", pris: 1499, beskrivelse: "Årets ofisiell kampball. Ypperste kvalitet, og med teknologi som gjør at ballen suser inn i nettmaskene", bilde: "https://www.torshovsport.no/pub_images/original/79718.jpg" },
         { id: 5, name: "Nike leggbeskyttere", pris: 479, beskrivelse: "Robuste leggbeskyttere med leggskinn holder. Material: syntetisk gjenvunnet plastikk.", bilde: "https://lovellcdn.b-cdn.net/products/242469.jpg" },
         { id: 6, name: "Manchester United FC ", pris: 0, beskrivelse: "Rotten klubb gis bort.", bilde: "https://yt3.googleusercontent.com/TDwtV-eV1UitynrmZjOnnlFCsNeoNYG3z15fDsr4P8xJkSUqWhFYC6a77namw4P0TiYS2No7=s900-c-k-c0x00ffffff-no-rj" },
-        { id: 7, name: "Nike leggbeskyttere", pris: 479, beskrivelse: "Robuste leggbeskyttere med leggskinn holder. Material: syntetisk gjenvunnet plastikk.", bilde: "https://lovellcdn.b-cdn.net/products/242469.jpg" },
-        { id: 8, name: "Nike leggbeskyttere", pris: 479, beskrivelse: "Robuste leggbeskyttere med leggskinn holder. Material: syntetisk gjenvunnet plastikk.", bilde: "https://lovellcdn.b-cdn.net/products/242469.jpg" },
-        { id: 9, name: "Nike leggbeskyttere", pris: 479, beskrivelse: "Robuste leggbeskyttere med leggskinn holder. Material: syntetisk gjenvunnet plastikk.", bilde: "https://lovellcdn.b-cdn.net/products/242469.jpg" },
-        { id: 10, name: "Nike leggbeskyttere", pris: 479, beskrivelse: "Robuste leggbeskyttere med leggskinn holder. Material: syntetisk gjenvunnet plastikk.", bilde: "https://lovellcdn.b-cdn.net/products/242469.jpg" },
-        { id: 11, name: "Nike leggbeskyttere", pris: 479, beskrivelse: "Robuste leggbeskyttere med leggskinn holder. Material: syntetisk gjenvunnet plastikk.", bilde: "https://lovellcdn.b-cdn.net/products/242469.jpg" },
-        { id: 12, name: "Nike leggbeskyttere", pris: 479, beskrivelse: "Robuste leggbeskyttere med leggskinn holder. Material: syntetisk gjenvunnet plastikk.", bilde: "https://lovellcdn.b-cdn.net/products/242469.jpg" }
-       
+        { id: 7, name: "Liverpool drakt 24/25", pris: 1189, beskrivelse: "Liverpool bortedrakt 2024/2025.", bilde: "https://cdn.fifakitcreator.com/kits/2023/11/08/654ba929ee515.jpg" },
+        { id: 8, name: "Nike Fotball-vannflaske", 
+    pris: 160, 
+    beskrivelse: "Hold deg hydrert under trening og kamper med denne høykvalitets vannflasken fra Nike.",
+    bilde: "https://images.sport1.no/getpic.php?vnr=200004844613&imageFileType=WEBP&width=1200&height=1200"
+},
+{ 
+    id: 9,
+    name: "Adidas Fotball-ryggsekk", 
+    pris: 299, 
+    beskrivelse: "En praktisk ryggsekk med plass til fotballsko, klær og andre nødvendigheter. Adidas-stripene gir den et stilig preg.",
+    bilde: "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/7e872005a1af4552a6d3af3c0092129f_9366/Football_Ryggsekk_Rod_HN5732_01_standard.jpg"
+},
+{ 
+    id: 10,
+    name: "Puma Fotball-hansker", 
+    pris: 979, 
+    beskrivelse: "Ultimat grep på ballen med moderne griptec teknologi. Redd alle skudd med de komfortable fotballhanskene fra Puma.",
+    bilde: "https://www.torshovsport.no/pub_images/original/78675.jpg"
+},
+{ 
+    id: 11,
+    name: "Select Fotball", 
+    pris: 389, 
+    beskrivelse: "Offisiell Select-fotball for optimal ytelse. Designet for presise spark og god ballkontroll. Str. 5",
+    bilde: "https://thumblr.uniid.it/product/227026/e1fe4cb3146e.jpg"
+},
+{ 
+    id: 12,
+    name: "Fotballnett fra Select", 
+    pris: 399, 
+    beskrivelse: "Praktisk nett for å øve på skudd og forbedre presisjonen. Enkelt å montere og ta med til treningsfeltet. Plass til 9 baller.",
+    bilde: "https://thumblr.uniid.it/product/29044/aca0f8d5f6d3.jpg"
+}
 
     ];
 
@@ -60,6 +87,24 @@
         cart = cartItems.reduce((total, item) => total + item.quantity, 0);
         console.log("cart:", cart, "Cartitems:", cartItems)
     }
+    let initialProductsToShow = 8; // Number of products to initially display
+    let productsToShow = initialProductsToShow;
+    const productsPerLoad = 4; // Number of products to load on each "Load More" click
+    
+    function loadMore() {
+        productsToShow += productsPerLoad; // Increase the number of products to show
+        updateProducts();
+    }
+    function showLess() {
+        if (productsToShow > initialProductsToShow) {
+            productsToShow -= productsPerLoad; // Decrease the number of products to show
+            updateProducts();
+        }
+    }
+    function updateProducts() {
+        // Use productsToShow to control the number of products displayed
+        // Your existing product rendering logic can remain unchanged
+    }
 </script>
 
 <header>
@@ -90,20 +135,25 @@
 
     <main>
         
-        {#each produkt as product (product.id)}
-        {#if product.id<9}
-            <div class="product">
+       
+        {#each produkt.slice(0, productsToShow) as product (product.id)}
+        <div class="product">
                 <h2>{product.name}</h2>
                 <img src={product.bilde} alt={"Bilde av " + product.name} />
                 <p>{product.beskrivelse}</p>
                 <p>Pris: {product.pris},-</p>
                 <button on:click={() => addProductToCart(product)}>Legg til i handlevogna</button>
             </div>
-            
-            {:else}
-            <button class="lastInnFler">Last inn fler</button>
-            {/if}
-        {/each}
+        
+    {/each}
+    
+    {#if productsToShow < produkt.length}
+        <button class="load-more-or-less" on:click={loadMore}>Last inn flere</button>
+    {/if}
+    
+    {#if productsToShow > initialProductsToShow}
+    <button class="load-more-or-less" on:click={showLess}>Vis mindre</button>
+{/if}
     </main>
 
     <!-- Cart Modal -->
@@ -162,12 +212,14 @@
     <p>&copy; 2024 PL-butikken. Alle rettigheter reservert.</p>
 </footer>
 <style>
-    .lastInnFler{
-        background-color: greenyellow ;
+    .load-more-or-less{
+        background-color: rgb(175, 182, 164) ;
         align-content: center;
         justify-items: center;
         padding:20px;
-        border-radius:14px
+        border-radius:14px;
+        transition: 0.4s;
+        color: #262424;
     }
      footer {
         background-color: #333;
