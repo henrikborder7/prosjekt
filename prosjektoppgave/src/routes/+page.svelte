@@ -3,7 +3,7 @@
 
 <body>
   <nav>
-    <a href="tabell">Statistikk</a>
+    <a href="tabell">Tabell</a>
     <a href="kamper">Kamper</a>
     <a href="nyheter">Nyhetsbrev </a>
     <a href="butikk">Butikk</a>
