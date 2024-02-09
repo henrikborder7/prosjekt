@@ -1,67 +1,66 @@
+<!-- App.svelte -->
 <script>
-    import fil from "../pl.json"
-    let json = JSON.parse(JSON.stringify(fil));
+  import fil from "../pl.json"
+  let json = JSON.parse(JSON.stringify(fil));
+  import { onMount } from 'svelte';
 
-    let navn = "";
+  let rangertListeMål = [];
+  let rangertListeAssist = [];
+  let isButtonClickedMål = false; // Viser mållisten som standard
+  let isButtonClickedAssist = false;
 
-
-
-    function sokEtterSpiller(navn) {
-        for (let i = 0; i < json.elements.length; i++) {
-            if (json.elements[i].first_name === navn) {
-                return json.elements[i].first_name+" "+ json.elements[i].second_name;
-            }
-        }
-        return "";
-    }
-
-    json.elements.sort(function(a,b){
-        return b.goals_scored - a.goals_scored
-    });
-
-    let rangertListe = json.elements.map(function(spiller){
-        return spiller.first_name +" "+spiller.second_name+ ": "+ spiller.goals_scored +" mål"
-    }) 
-
-
-    
-    function skEtterSpiller(fornavn){let matchendeSpillere= []
-
-    for (let i = 0; i < json.elements.length; i++) {
-        if (json.elements[i].first_name === fornavn) {
-        matchendeSpillere.push(json.elements[i].first_name + " " + json.elements[i].second_name);
-    }
+  async function fetchData() {
+    const response = await fetch('../pl.json');
+    json = await response.json();
+    sortListByGoals(); // Sorterer listen etter mål som standard
   }
-visSpillere(matchendeSpillere)
-    }
 
-    function visSpillere(spillere) {
-  if (spillere.length === 0) {
-    return "Ingen spillere funnet.";
-  } else {
-    for (let i = 0; i < spillere.length; i++) {
-      return spillere[i]
-    }
+  function sortListByGoals() {
+    json.elements.sort((a, b) => b.goals_scored - a.goals_scored);
+    rangertListeMål = json.elements.map(spiller => `${spiller.first_name} ${spiller.second_name}: ${spiller.goals_scored} mål`);
+    isButtonClickedMål = true;
+    isButtonClickedAssist = false; // Resetter den andre knappen
   }
-    }
 
+  function sortListByAssists() {
+    json.elements.sort((a, b) => b.assists - a.assists);
+    rangertListeAssist = json.elements.map(spiller => `${spiller.first_name} ${spiller.second_name}: ${spiller.assists} assists`);
+    isButtonClickedMål = false; // Resetter den andre knappen
+    isButtonClickedAssist = true;
+  }
+
+  onMount(fetchData);
 </script>
 
-<label><input bind:value={navn}>Antal mål
-</label>
 
 
-<p>{sokEtterSpiller(navn)}</p>
-<p>{visSpillere(navn)}</p>
-<p>{skEtterSpiller(navn)}</p>
+<h1>Rankert Liste over Spillere</h1>
 
-<p>{json.elements[0].first_name}</p>
 
-<ul>
 
-    {#each rangertListe as liste}
-    <li>
-        {liste}
-    </li>
+
+<div>
+  <button on:click={sortListByGoals}>Vis rangert liste etter mål</button>
+  <button on:click={sortListByAssists}>Vis rangert liste etter assist</button>
+</div>
+
+
+
+
+
+
+{#if isButtonClickedMål}
+  <ol>
+    {#each rangertListeMål as liste}
+      <li>{liste}</li>
     {/each}
-</ul>
+  </ol>
+{/if}
+
+{#if isButtonClickedAssist}
+  <ol>
+    {#each rangertListeAssist as liste}
+      <li>{liste}</li>
+    {/each}
+  </ol>
+{/if}
