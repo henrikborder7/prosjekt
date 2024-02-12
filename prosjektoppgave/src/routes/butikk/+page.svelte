@@ -378,7 +378,7 @@
         color: rgb(61, 25, 91);
         text-align: center;
         padding: 10px;
-        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+        font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
     }
 
     nav {
@@ -438,15 +438,15 @@
     }
 
     .cart-indicator {
-        position: absolute;
+        position: fixed;
         top: 35px;
         right: 10px;
-        background-color: rgb(253, 253, 253);
         color: #262424;
-        border-radius: 50%;
+        background-color: rgba(0,0,0,0.2);
         padding: 5px;
         font-size: 12px;
         cursor: pointer;
+        border-radius: 40%;
     }
 
     .cart-modal {
@@ -482,7 +482,7 @@
     }
 
     .cart-logo {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        
     }
 </style>
