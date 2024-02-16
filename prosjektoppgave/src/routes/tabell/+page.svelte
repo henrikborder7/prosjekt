@@ -4,6 +4,7 @@
     import fil from "../plLag.json";
     let json = JSON.parse(JSON.stringify(fil));
     import fil2 from "../pl.json";
+    import { finiteOrDefault } from "chart.js/dist/helpers/helpers.core";
     let json2 = JSON.parse(JSON.stringify(fil2));
     let topSkaarere = [];
 
@@ -12,6 +13,7 @@
     }
 
     topSkaarere = sorterSpillere(json2.elements).slice(0, 20);
+
 
     onMount(() => {
         function findTeamName(event) {
@@ -26,8 +28,13 @@
                 const clickedTeam = findTeamName(event);
                 console.log(clickedTeam); // Her kan du gjøre hva du vil med navnet på laget
             });
+            
         });
     });
+
+
+
+
 </script>
 
 <Navigasjon />
