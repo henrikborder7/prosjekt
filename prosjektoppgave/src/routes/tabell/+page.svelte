@@ -4,16 +4,18 @@
     import fil from "../plLag.json";
     let json = JSON.parse(JSON.stringify(fil));
     import fil2 from "../pl.json";
-    import { finiteOrDefault } from "chart.js/dist/helpers/helpers.core";
     let json2 = JSON.parse(JSON.stringify(fil2));
     let topSkaarere = [];
+    let lag = "";
+    let id = "";
+    let spillere = [];
+    let visSpillere = false;
 
     function sorterSpillere(spillere) {
         return spillere.sort((a, b) => b.goals_scored - a.goals_scored);
     }
 
     topSkaarere = sorterSpillere(json2.elements).slice(0, 20);
-
 
     onMount(() => {
         function findTeamName(event) {
@@ -25,16 +27,27 @@
 
         document.querySelectorAll("table tbody tr").forEach((row) => {
             row.addEventListener("click", (event) => {
-                const clickedTeam = findTeamName(event);
-                console.log(clickedTeam); // Her kan du gjøre hva du vil med navnet på laget
+                lag = findTeamName(event);
+                console.log(lag); // Her kan du gjøre hva du vil med navnet på laget
+                visSpillere = true;
             });
-            
         });
     });
 
+    function giID(lag) {
+        for (let i = 0; i < json2.teams.length; i++) {
+            if (json2.teams[i].name === lag) {
+                id = json2.teams[i].id;
+                console.log(id);
+            }
+        }
+    }
 
+    $: giID(lag);
 
-
+    function gjorFalse (){
+        visSpillere = false
+    }
 </script>
 
 <Navigasjon />
@@ -70,9 +83,14 @@
                     </tr>
                 {/each}
             </tbody>
-        </table>
+        </table>   
     </div>
-
+{#if visSpillere}
+    <div>
+        <p>liste med spilere vises her</p>
+        <button on:click={gjorFalse}>Sjul</button></div>
+    {/if}
+ 
     <div class="top-scorers">
         <h1>Toppscorere</h1>
         <table>
