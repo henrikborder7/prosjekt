@@ -124,24 +124,12 @@
         }
     }
 
-    function increaseQuantity(productId) {
-        let itemToUpdate = cartItems.find((item) => item.id === productId);
-        if (itemToUpdate) {
-            itemToUpdate.quantity += 1;
-            updateQuantity(productId, itemToUpdate.quantity);
-        }
-    }
 
-    function decreaseQuantity(productId) {
-        let itemToUpdate = cartItems.find((item) => item.id === productId);
-        if (itemToUpdate && itemToUpdate.quantity > 1) {
-            itemToUpdate.quantity -= 1;
-            updateQuantity(productId, itemToUpdate.quantity);
-        }
-    }
+  
 
     function updateCart() {
         cart = cartItems.reduce((total, item) => total + item.quantity, 0);
+        pris = cartItems.reduce((total, item) => total + item.quantity * item.pris, 0);
         console.log("cart:", cart, "Cartitems:", cartItems);
     }
     let initialProductsToShow = 8; // Number of products to initially display
@@ -159,8 +147,15 @@
         }
     }
     function updateProducts() {
-        // Use productsToShow to control the number of products displayed
-        // Your existing product rendering logic can remain unchanged
+        const totalProducts = produkt.length;
+        const rangeText = `${productsToShow}/${totalProducts} produkter vises`;
+
+        document.querySelector(".product-range").innerText = rangeText;
+    }
+
+    function removeProductFromCart(productId) {
+        cartItems = cartItems.filter((item) => item.id !== productId);
+        updateCart();
     }
 </script>
 
@@ -204,14 +199,19 @@
             </div>
         {/each}
     </main>
+
+    <div class="product-range">8/12 produkter vises</div>
     <div class="knapp">
     {#if productsToShow < produkt.length}
+   
+    
         <button class="load-more-or-less" on:click={loadMore}
             >Last inn flere</button
         >
-    {/if}
+        {/if}
 
     {#if productsToShow > initialProductsToShow}
+    
         <button class="load-more-or-less" on:click={showLess}>Vis mindre</button
         >
     {/if}
@@ -221,19 +221,19 @@
         <div class="cart-content">
             <h2>Handlevognen din:</h2>
             {#if cart > 0}
-                <div id="cart-content">
-                    {#each cartItems as item}
-                        <p>
-                            <button on:click={() => decreaseQuantity(item.name)}
-                                >-</button
-                            >
-                            {item.quantity}x {item.name}
-                            <button on:click={() => increaseQuantity(item.name)}
-                                >+</button
-                            >
-                        </p>
-                    {/each}
-                </div>
+            <div id="cart-content">
+                {#each cartItems as item (item.id)}
+                    <p>
+                        <select bind:value={item.quantity} on:change={() => updateQuantity(item.id, item.quantity)}>
+                            {#each Array(10) as _, i}
+                                <option value={i + 1}>{i + 1}</option>
+                            {/each}
+                        </select>
+                        {item.name}
+                        <button on:click={() => removeProductFromCart(item.id)}>Fjern</button>
+                    </p>
+                {/each}
+            </div>
                 <p id="cart-total">Sum: {pris},-</p>
                 <button
                     on:click={() =>
