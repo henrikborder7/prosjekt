@@ -2135,7 +2135,7 @@
             "ict_index": "0.0",
             "starts": 0,
             "expected_goals": "0.00",
-            "expected_assists": "0.00",
+            "expected_assists": "0.00", 
             "expected_goal_involvements": "0.00",
             "expected_goals_conceded": "0.00",
             "influence_rank": 505,

@@ -68,78 +68,80 @@
     }
 </script>
 
-<Navigasjon />
+<body>
+    <Navigasjon />
 
-<div class="hovedcontainer">
-    <div class="tabell-container">
-        <h1>Premier League Tabell 2023/24</h1>
-        <!-- Legg til en identifikator til tabellen til venstre -->
-        <table id="tabell-venstre">
-            <thead>
-                <tr>
-                    <th colspan="2">Lag</th>
-                    <th>S</th>
-                    <th>V</th>
-                    <th>U</th>
-                    <th>T</th>
-                    <th>Mål</th>
-                    <th>MF</th>
-                    <th>P</th>
-                </tr>
-            </thead>
-            <tbody>
-                {#each json.teams as team}
-                    <tr>
-                        <td>{team.position}</td>
-                        <td>{team.name}</td>
-                        <td>{team.played}</td>
-                        <td>{team.wins}</td>
-                        <td>{team.draws}</td>
-                        <td>{team.losses}</td>
-                        <td>{team.goals_for} - {team.goals_against}</td>
-                        <td>{team.goals_for - team.goals_against}</td>
-                        <td>{team.points}</td>
-                    </tr>
-                {/each}
-            </tbody>
-        </table>
-    </div>
-    {#if visSpillere}
-        <div class="vis-spillere">
-            <h1>Spillerstall</h1>
-            <div>
-                <button on:click={gjorFalse}>Sjul</button>
-            </div>
-            <ul class="spillerStall">
-                {#each spillere as spiller}
-                    <li>{spiller}</li>
-                {/each}
-            </ul>
-        </div>
-    {/if}
-    {#if !visSpillere}
-        <div class="top-scorers">
-            <h1>Toppscorere</h1>
-            <table>
+    <div class="hovedcontainer">
+        <div class="tabell-container">
+            <h1>Premier League Tabell 2023/24</h1>
+            <!-- Legg til en identifikator til tabellen til venstre -->
+            <table id="tabell-venstre">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Spiller</th>
+                        <th colspan="2">Lag</th>
+                        <th>S</th>
+                        <th>V</th>
+                        <th>U</th>
+                        <th>T</th>
                         <th>Mål</th>
+                        <th>MF</th>
+                        <th>P</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {#each topSkaarere as player, index}
+                    {#each json.teams as team}
                         <tr>
-                            <td>{index + 1}</td>
-                            <td>{player.web_name}</td>
-                            <td>{player.goals_scored}</td>
+                            <td>{team.position}</td>
+                            <td>{team.name}</td>
+                            <td>{team.played}</td>
+                            <td>{team.wins}</td>
+                            <td>{team.draws}</td>
+                            <td>{team.losses}</td>
+                            <td>{team.goals_for} - {team.goals_against}</td>
+                            <td>{team.goals_for - team.goals_against}</td>
+                            <td>{team.points}</td>
                         </tr>
                     {/each}
                 </tbody>
             </table>
-        </div>{/if}
-</div>
+        </div>
+        {#if visSpillere}
+            <div class="vis-spillere">
+                <h1>Spillerstall</h1>
+                <div>
+                    <button on:click={gjorFalse}>Sjul</button>
+                </div>
+                <ul class="spillerStall">
+                    {#each spillere as spiller}
+                        <li>{spiller}</li>
+                    {/each}
+                </ul>
+            </div>
+        {/if}
+        {#if !visSpillere}
+            <div class="top-scorers">
+                <h1>Toppscorere</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Spiller</th>
+                            <th>Mål</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {#each topSkaarere as player, index}
+                            <tr>
+                                <td>{index + 1}</td>
+                                <td>{player.web_name}</td>
+                                <td>{player.goals_scored}</td>
+                            </tr>
+                        {/each}
+                    </tbody>
+                </table>
+            </div>{/if}
+    </div>
+</body>
 
 <style>
     .hovedcontainer {
