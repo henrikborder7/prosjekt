@@ -4,7 +4,7 @@
     let json = JSON.parse(JSON.stringify(fil));
     let postnummer = "";
     let navn = "";
-   
+   let poststed ="";
     let adresse="";
     let email="";
     let digital =false
@@ -47,10 +47,11 @@
             <input placeholder="Adresse" bind:value={adresse} required />
 
             <h3>Postnummer</h3>
-            <input placeholder="Postnummer" bind:value={postnummer} required />
-
+            <input placeholder="Postnummer" bind:value={postnummer} on:input={() => poststed = hentPoststed(postnummer)} required />
+        
             <h3>Poststed</h3>
-            {hentPoststed(postnummer)}
+            <input placeholder="Poststed" bind:value={poststed} required />
+           
         {/if}
 
         <button type="submit" disabled={!((digital || fysisk) && navn && email)}>Meld på</button>

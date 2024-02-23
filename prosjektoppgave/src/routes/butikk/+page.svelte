@@ -1,6 +1,8 @@
 <script>
     let cart = 0;
     let pris = 0;
+    let navn ="";
+    let email ="";
     let cartItems = [];
 
     let produkt = [
@@ -99,6 +101,24 @@
         },
     ];
 
+   
+
+    let searchQuery = "";
+  let searchedProducts = [];
+
+  function searchProducts() {
+    searchedProducts = produkt.filter(product =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) 
+    );
+
+    // Reset productsToShow when a search is performed
+    productsToShow = initialProductsToShow;
+  }
+
+  function resetSearch() {
+    searchQuery = "";
+    searchedProducts = [];
+  }
     function addProductToCart(product) {
         let existingItem = cartItems.find((item) => item.id === product.id);
 
@@ -137,22 +157,28 @@
     const productsPerLoad = 4; // Number of products to load on each "Load More" click
 
     function loadMore() {
-        productsToShow += productsPerLoad; // Increase the number of products to show
+    if (productsToShow + productsPerLoad <= searchedProducts.length || searchedProducts.length === 0) {
+        productsToShow += productsPerLoad;
         updateProducts();
     }
-    function showLess() {
-        if (productsToShow > initialProductsToShow) {
-            productsToShow -= productsPerLoad; // Decrease the number of products to show
-            updateProducts();
-        }
-    }
-    function updateProducts() {
-        const totalProducts = produkt.length;
-        const rangeText = `${productsToShow}/${totalProducts} produkter vises`;
+    updateCart();
+}
 
-        document.querySelector(".product-range").innerText = rangeText;
+function showLess() {
+    if (productsToShow > initialProductsToShow) {
+        productsToShow -= productsPerLoad;
+        updateProducts();
+        updateCart();
     }
+}
 
+
+function updateProducts() {
+    const totalProducts = searchedProducts.length > 0 ? searchedProducts.length : produkt.length;
+    const rangeText = `${Math.min(productsToShow, totalProducts)}/${totalProducts} produkter vises`;
+
+    document.querySelector(".product-range").innerText = rangeText;
+}
     function removeProductFromCart(productId) {
         cartItems = cartItems.filter((item) => item.id !== productId);
         updateCart();
@@ -185,37 +211,62 @@
             {/if}
         </div>
     </nav>
-
-    <main>
-        {#each produkt.slice(0, productsToShow) as product (product.id)}
+    <div class="search-container">
+        <input class="søkefelt" bind:value={searchQuery} placeholder="Søk i produkter...">
+        <button on:click={searchProducts}>Søk</button>
+        {#if searchedProducts.length > 0}
+          <button on:click={resetSearch}>Vis alle produkter</button>
+        {/if}
+      </div>
+      
+      <main>
+        {#if searchQuery === ""}
+          {#each produkt as product (product.id)}
+            <!-- Display all products -->
             <div class="product">
+              <h2>{product.name}</h2>
+              <img src={product.bilde} alt={"Bilde av " + product.name} />
+              <p>{product.beskrivelse}</p>
+              <p>Pris: {product.pris},-</p>
+              <button on:click={() => addProductToCart(product)}>Legg til i handlevogna</button>
+            </div>
+          {/each}
+        {:else}
+          {#if searchedProducts.length > 0}
+            {#each searchedProducts as product (product.id)}
+              <!-- Display the matching products -->
+              <div class="product">
                 <h2>{product.name}</h2>
                 <img src={product.bilde} alt={"Bilde av " + product.name} />
                 <p>{product.beskrivelse}</p>
                 <p>Pris: {product.pris},-</p>
-                <button on:click={() => addProductToCart(product)}
-                    >Legg til i handlevogna</button
-                >
-            </div>
-        {/each}
-    </main>
-
-    <div class="product-range">8/12 produkter vises</div>
-    <div class="knapp">
-    {#if productsToShow < produkt.length}
-   
-    
-        <button class="load-more-or-less" on:click={loadMore}
-            >Last inn flere</button
-        >
+                <button on:click={() => addProductToCart(product)}>Legg til i handlevogna</button>
+              </div>
+            {/each}
+          {:else}
+            <p>Ingen produkter funnet.</p>
+          {/if}
         {/if}
+      </main>
+      <div class="product-range">
+        {#if searchQuery === ""}
+          <!-- Show the range only when not searching -->
+          {productsToShow}/{produkt.length} produkter vises
+        {/if}
+      </div>
+      
+      <div class="knapp">
+        {#if searchQuery === "" && productsToShow < produkt.length}
+          <!-- Show "Load More" button only when not searching -->
+          <button class="load-more-or-less" on:click={loadMore}>Last inn flere</button>
+        {/if}
+      
+        {#if searchQuery === "" && productsToShow > initialProductsToShow}
+          <!-- Show "Show Less" button only when not searching -->
+          <button class="load-more-or-less" on:click={showLess}>Vis mindre</button>
+        {/if}
+      </div>
 
-    {#if productsToShow > initialProductsToShow}
-    
-        <button class="load-more-or-less" on:click={showLess}>Vis mindre</button
-        >
-    {/if}
-</div>
     <!-- Cart Modal -->
     <div class="cart-modal">
         <div class="cart-content">
@@ -260,13 +311,31 @@
         <div class="cart-content">
             <h2>Betaling:</h2>
             {#if cart > 0}
-                {#each cartItems as item}
-                    <p>
-                        {item.quantity}x {item.name}
-                    </p>
-                {/each}
-                <p>Sum: {pris},-</p>
+            <div id="overskrift-kasse"><div class="kasse"><section style="flex: 3;"><b>Produkt</b></section><section><b>MVA.</b></section><section><b>Total</b></section></div></div>
+            {#each cartItems as item}
+            <div class="kasse">
+                <section style="flex:3">
+                    {#each produkt as product}
+                        {#if product.id === item.id}
+                            <img src={product.bilde} height="40px" alt={"Bilde av " + product.name} />
+                        {/if}
+                    {/each}
+                    {item.quantity}x {item.name}
+                </section>
+                <section>{item.pris * 0.25 * item.quantity}</section>
+                <section>{item.pris * item.quantity}</section>
+            </div>
+        {/each}
+        
+           
             {/if}
+            <p>Sum: {pris},-</p>
+           <form>
+     
+        <input placeholder="Fornavn og etteravn" bind:value={navn} required /><br>
+
+        <input type="email" placeholder="E-post" bind:value={email} required /><br>
+    </form>
             <button
                 on:click={() =>
                     (document.querySelector(".cart-modal2").style.display =
@@ -315,6 +384,50 @@
 </footer>
 
 <style>
+    .search-container{
+        margin-left: 10px;
+    }
+
+    .søkefelt{
+        width:10%;
+        transition: 0.3s;
+        margin: 10px 5px 0px 10px;
+    }
+    .søkefelt::content{
+        width: 25%;
+        transition: 0.3s;
+
+    }
+    input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    
+    box-sizing: border-box;
+}
+.kasse {
+    display: flex;
+    margin-bottom: 5px;
+    background-color: #f7f6f6;
+    padding: 10px;
+   
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#overskrift-kasse {
+    border-bottom: #252624 solid 2px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+    section{
+        flex:1
+    }
+    form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+}
     .knapp{
         display: flex;
         justify-content: center;
@@ -471,6 +584,7 @@
         background: rgba(255, 255, 255, 1);
         justify-content: center;
         align-items: center;
+       
     }
 
     .cart-content {
