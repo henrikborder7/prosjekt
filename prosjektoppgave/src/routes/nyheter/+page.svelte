@@ -1,6 +1,6 @@
 <script>
     import fil from "../postnummer (1).json";
-
+    import Navigasjon from"../navigasjon/navigasjonsbar.svelte";
     let json = JSON.parse(JSON.stringify(fil));
     let postnummer = "";
     let navn = "";
@@ -20,14 +20,7 @@
     }
 </script>
 <body>
-    <nav>
-        <a href="/">Hjem</a>
-        <a href="tabell">Tabell</a>
-        <a href="kamper">Kamper</a>
-        <a href="nyheter">Nyhetsbrev </a>
-        <a href="butikk">Butikk</a>
-    </nav>
-    
+   <Navigasjon/>
     <h1>Meld deg på vårt nyhetsbrev</h1>
     
     <form on:submit|preventDefault={() => showWarning = !(digital || fysisk)}>
