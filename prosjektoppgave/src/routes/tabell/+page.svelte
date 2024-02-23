@@ -108,14 +108,13 @@
         <div class="vis-spillere">
             <h1>Spillerstall</h1>
             <div>
-            <button on:click={gjorFalse}>Sjul</button>
-        </div>
+                <button on:click={gjorFalse}>Sjul</button>
+            </div>
             <ul class="spillerStall">
                 {#each spillere as spiller}
                     <li>{spiller}</li>
                 {/each}
             </ul>
-            
         </div>
     {/if}
     {#if !visSpillere}
@@ -159,16 +158,15 @@
         padding: 0 20px 0 20px;
         margin-top: 20px;
     }
-    .vis-spillere{
+    .vis-spillere {
         display: grid;
         grid-template-columns: auto auto;
-    }   
-    .spillerStall{
-        grid-column: -1/1;
-
     }
-    .vis-spillere div{
-        display:flex;
+    .spillerStall {
+        grid-column: -1/1;
+    }
+    .vis-spillere div {
+        display: flex;
         justify-content: end;
     }
 
@@ -226,7 +224,6 @@
         border-radius: 5px;
         cursor: pointer;
         max-height: 40px;
-
     }
 
     .vis-spillere button:hover {
