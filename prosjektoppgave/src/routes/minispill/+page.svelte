@@ -1,19 +1,25 @@
 <script>
     import Navigasjonsbar from "../navigasjon/navigasjonsbar.svelte";
+    import { tick } from 'svelte';
     import fil1 from "../pl.json";
+
     let json = JSON.parse(JSON.stringify(fil1));
 
-    let visDiv1 = true; // Variabel for å styre synligheten til div1 og div2
-    let visDiv2 = false;
-    let visDiv3 = false;
+    let visDiv = 1; // Variabel for å styre hvilken div som skal vises
+    let alleSpillereVist = false;
+    let nåværendeSpillerIndex = 0;
+    let tilfeldigeSpillere = [];
 
     function visSpiller1() {
-        visDiv1 = false;
-        visDiv2 = true;
-    }
-    function visAlleSpillere() {
-        visDiv2 = false;
-        visDiv3 = true;
+        if (visDiv === 1) {
+            visDiv = 2;
+        } else {
+            visDiv = 1;
+            alleSpillereVist = false;
+            nåværendeSpillerIndex = 0;
+            genererTilfeldigeSpillere();
+            hentSpillereOgVisDiv1();
+        }
     }
 
     function genererTilfeldigeTall() {
@@ -27,62 +33,139 @@
         return tilfeldigeTall;
     }
 
-    let tilfeldigeSpillere = genererTilfeldigeTall();
-    console.log(tilfeldigeSpillere);
+    function genererTilfeldigeSpillere() {
+        tilfeldigeSpillere = genererTilfeldigeTall();
+    }
+
+    let test = [];
+    let sorterteSpillere = [];
 
     function hentSpillere() {
         let niSpillere = [];
-        console.log("Nå" + tilfeldigeSpillere);
         for (let i = 0; i < tilfeldigeSpillere.length; i++) {
-            console.log(tilfeldigeSpillere[i]);
             for (let j = 0; j < json.elements.length; j++) {
                 if (json.elements[j].id === tilfeldigeSpillere[i]) {
-                    let navn =
-                        json.elements[j].first_name +
-                        " " +
-                        json.elements[j].second_name;
+                    let navn = json.elements[j].first_name + " " + json.elements[j].second_name;
                     let maal = json.elements[j].goals_scored;
-                    niSpillere.push(navn+maal);
+                    let assist = json.elements[j].assists;
+                    let maalPoeng = maal + assist;
+                    let bilde = json.elements[j].code;
   
+                    niSpillere.push({navn: navn, mål: maal, assist: assist, målPoeng: maalPoeng, bilde: bilde});
                 }
             }
-            
         }
-
         return niSpillere;
     }
-    let test = hentSpillere();
-    console.log("test  " + test);
+
+    function hentSpillereOgVisDiv1() {
+        test = hentSpillere();
+        sorterteSpillere = test.slice().sort(sortereSpillereSynkende);
+    }
+
+    function sortereSpillereSynkende(a, b) {
+        return b.målPoeng + (b.mål * 0.1) - (a.målPoeng + (b.mål * 0.1));
+    }
+
+    let besteSpiller = {};
+
+    function visNesteSpiller() {
+        nåværendeSpillerIndex++;
+        if (nåværendeSpillerIndex >= sorterteSpillere.length) {
+            alleSpillereVist = true;
+        }
+    }
+
+    async function visAlleSpillere() {
+        if (visDiv === 1) {
+            visDiv = 2;
+        } else if (visDiv === 2) {
+            visNesteSpiller();
+            if (nåværendeSpillerIndex >= sorterteSpillere.length) {
+                visDiv = 3;
+            }
+        } else if (visDiv === 3) {
+            genererTilfeldigeSpillere();
+            hentSpillereOgVisDiv1();
+            visDiv = 1;
+        }
+    }
 </script>
 
 <body>
     <Navigasjonsbar />
-    {test}
-    {#if visDiv1}
+    {#if visDiv === 1}
         <div id="div1" on:click={visSpiller1}>Div 1</div>
     {/if}
-    {#if visDiv2}
-        <div id="div2" on:click={visAlleSpillere}>Div 2</div>
+    {#if visDiv === 2}
+        <div id="div2" on:click={visAlleSpillere}>
+            {#if sorterteSpillere[nåværendeSpillerIndex]}
+                <p>Målpoeng: {sorterteSpillere[nåværendeSpillerIndex].målPoeng} ({sorterteSpillere[nåværendeSpillerIndex].mål}/{sorterteSpillere[nåværendeSpillerIndex].assist}) </p>
+                <p>Mål: {sorterteSpillere[nåværendeSpillerIndex].mål}</p>
+                <p>Assist: {sorterteSpillere[nåværendeSpillerIndex].assist}</p>
+                <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${sorterteSpillere[nåværendeSpillerIndex].bilde}.png`} alt="Spillerbilde mangler :(" >
+                <p>{sorterteSpillere[nåværendeSpillerIndex].navn}</p> 
+            {/if}
+        </div>
     {/if}
-    {#if visDiv3}
-        <div id="div3" on:click={visAlleSpillere}>Div 3</div>
+    {#if visDiv === 3}
+        <div id="div3" on:click={visAlleSpillere}>
+            <button on:click={visSpiller1}>Tilbake til Div 1</button>
+            {#each test as spiller}
+                <div id="kort">  
+                    <p>Målpoeng: {spiller.målPoeng} ({spiller.mål}/{spiller.assist}) </p>
+                    <p>Mål: {spiller.mål}</p>
+                    <p>Assist: {spiller.assist}</p>
+                    <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${spiller.bilde}.png`} alt="Spillerbilde mangler :(" >
+                    <p>{spiller.navn}</p> 
+                </div>
+            {/each}
+        </div>
     {/if}
 </body>
 
 <style>
+    #kort {
+        background-color: gold;
+        border-radius: 10px;
+        padding: 20px;
+        display: grid;
+        grid-template-rows: auto auto auto auto auto auto;
+        gap: 10px;
+        text-align: center;
+    }
+
+    #kort img {
+        width: 100px;
+        height: 120px;
+
+        object-fit: cover;
+        margin: 0 auto;
+    }
+
+    #kort p {
+        margin: 0;
+    }
+
     #div1 {
-        width: 300px;
-        height: 300px;
+        width: 1000px;
+        height: 1000px;
         background-color: red;
     }
+
     #div2 {
-        width: 300px;
-        height: 300px;
+        width: 1000px;
+        height: 1000px;
         background-color: blue;
     }
+
     #div3 {
-        width: 300px;
-        height: 300px;
+        width: 1000px;
+        height: 1000px;
         background-color: green;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        padding: 20px;
     }
 </style>
