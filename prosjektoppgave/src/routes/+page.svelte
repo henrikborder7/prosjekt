@@ -13,9 +13,9 @@
     </a>
     <a href="/nyheter" class="tre-kolonner">
       <img
-        src="https://kode.cappelendamm.no/aim/cappelenprod/files/files/8/2/8/8b5394040925f28c37bde423bdaf3613f430b84196/8288b5394040925f28c37bde423bdaf3613f430b84196.jpg/Scale/?Scale:geometry=%3E1920x%3E"
+        src="https://2.bp.blogspot.com/-6F8lBvGEHt8/Vw3-ElpI1CI/AAAAAAAABP0/jjILGgFmvGUygR-IhXT4weYAvgc90JP7ACK4B/s910-r/IMG_6979%2B%25E2%2580%2593%2BKopi1.jpg" alt="Henrik Nese" style="object-position: top right;"
       />
-      <h1>Rett i klypene på keeper</h1>
+      <h1>Norsk gutt på prøvespilling for PL-klubb</h1>
     </a>
     <a href="/nyheter" class="tre-kolonner">
       <img
