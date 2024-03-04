@@ -19,8 +19,9 @@
         return "";
     }
 </script>
+<Navigasjon />
 <body>
-   <Navigasjon/>
+   
     <h1>Meld deg på vårt nyhetsbrev</h1>
     
     <form on:submit|preventDefault={() => showWarning = !(digital || fysisk)}>
