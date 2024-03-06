@@ -10,17 +10,17 @@
     let nåværendeSpillerIndex = 0;
     let tilfeldigeSpillere = [];
 
-    function visSpiller1() {
-        if (visDiv === 1) {
-            visDiv = 2;
-        } else {
-            visDiv = 1;
-            alleSpillereVist = false;
-            nåværendeSpillerIndex = 0;
-            genererTilfeldigeSpillere();
-            hentSpillereOgVisDiv1();
-        }
+    async function visSpiller1() {
+    if (visDiv === 1) {
+        visDiv = 2;
+        genererTilfeldigeSpillere();
+        hentSpillereOgVisDiv1();
+    } else {
+        visDiv = 1;
+        alleSpillereVist = false;
+        nåværendeSpillerIndex = 0;
     }
+}
 
     function genererTilfeldigeTall() {
         let tilfeldigeTall = [];
