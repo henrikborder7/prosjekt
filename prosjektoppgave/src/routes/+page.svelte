@@ -1,5 +1,22 @@
-<script> import Navigasjon from "./navigasjon/navigasjonsbar.svelte"</script>
+<script> 
+  import Navigasjon from "./navigasjon/navigasjonsbar.svelte"
+  import { onMount } from "svelte";
+   
+    import fil from "./plLag.json";
+    let json = JSON.parse(JSON.stringify(fil));
+    import fil2 from "./pl.json";
+    let json2 = JSON.parse(JSON.stringify(fil2));
+    let topSkaarere = [];
 
+    function sorterSpillere(spillere) {
+        const spillereKopi = [...spillere];
+        return spillereKopi.sort((a, b) => b.goals_scored - a.goals_scored);
+    }
+
+    topSkaarere = sorterSpillere(json2.elements).slice(0, 20);
+    
+    let visSpillere2 = true
+  </script>
 <body>
   <Navigasjon/>
   <div>Powered by U&N tec.</div>
@@ -57,26 +74,38 @@
       <h1>Snart spiller de på samme lag!</h1>
     </a>
   </section>
+
+  {#if visSpillere2}
+        <div class="tabell-container">
+            <h1>Premier League Tabell 2023/24</h1>
+            <!-- Legg til en identifikator til tabellen til venstre -->
+            <table id="tabell-høyre">
+                <thead>
+                    <tr>
+                        <th colspan="2">Lag</th>
+                        <th>P</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#each json.teams as team}
+                        <tr>
+                            <td>{team.position}</td>
+                            <td>{team.name}</td>
+                            <td>{team.points}</td>
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
+        </div>
+        {/if}
 </body>
 
 <style>
   body {
     margin: 0;
   }
-  .toppbar {
-    background: linear-gradient(
-      45deg,
-      rgb(98, 255, 242),
-      rgb(192, 242, 123),
-      rgb(93, 242, 93),
-      rgb(98, 255, 242)
-    );
-    display: flex;
-    height: 70px;
-    width: 100vw;
+  
 
-    z-index: 1000;
-  }
   a {
     display: inline-block;
     position: relative;
@@ -110,71 +139,11 @@
     margin: 16px 0px 16px 24px;
     font-family: Helvetica, sans-serif;
   }
-  button {
-    text-decoration: none;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    color: rgb(61, 25, 91);
-    margin: 10px 0px 10px 30vw;
-    font-family: Helvetica, sans-serif;
-    border-radius: 4rem;
-    border: none;
-    padding: 0px 15px 0px 15px;
-    background-color: rgb(242, 242, 242);
-    cursor: pointer;
-    transition: 1s;
-  }
-  label {
-    text-decoration: none;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin: 10px 0px 10px 10vw;
-    font-family: Helvetica, sans-serif;
-    border-radius: 4rem;
-    border: none;
-    padding: 0px 15px 0px 15px;
-    background-color: rgba(0, 0, 0, 0.12);
-    width: 70px;
-    transition: 1s;
-  }
-  i {
-    color: rgb(203, 203, 203);
-    size: 10px;
-    padding-right: 5px;
-  }
-  input {
-    text-decoration: none;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  background-color: rgba(0,0,0,0);
-  color: #fff;
-    font-family: Helvetica, sans-serif;
-    border: none;
-    width: 50px;
-    transition: 1s;
-  }
+ 
   ::placeholder {
     color: rgb(255, 255, 255);
   }
 
-  button:hover {
-    background-color: white;
-    transform: scale(1.1);
-    transition: 1s;
-  }
-
-  label:focus-within {
-    width: 200px;
-    transition: 1.69s;
-    border: none;
-  }
-  input:focus {
-    width: 180px;
-    transition: 1.7s;
-  }
   .nyheter {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
