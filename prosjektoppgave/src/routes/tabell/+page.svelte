@@ -63,15 +63,21 @@
         }
     });
 
+
+
     function gjorFalse() {
         visSpillere = false;
     }
+
+
+    let visSpillere2 = true
 </script>
 
 <body>
     <Navigasjon />
 
     <div class="hovedcontainer">
+        {#if visSpillere2}
         <div class="tabell-container">
             <h1>Premier League Tabell 2023/24</h1>
             <!-- Legg til en identifikator til tabellen til venstre -->
@@ -105,11 +111,15 @@
                 </tbody>
             </table>
         </div>
+        {/if}
+        {#if !visSpillere2}
+
+        {/if}
         {#if visSpillere}
             <div class="vis-spillere">
                 <h1>Spillerstall</h1>
                 <div>
-                    <button on:click={gjorFalse}>Sjul</button>
+                    <button on:click={gjorFalse}>Skjul</button>
                 </div>
                 <ul class="spillerStall">
                     {#each spillere as spiller}
