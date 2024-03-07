@@ -36,12 +36,12 @@
     function genererTilfeldigeSpillere() {
         tilfeldigeSpillere = genererTilfeldigeTall();
     }
-
     let test = [];
     let sorterteSpillere = [];
-
+    let sum = 0
     function hentSpillere() {
         let niSpillere = [];
+        sum = 0
         for (let i = 0; i < tilfeldigeSpillere.length; i++) {
             for (let j = 0; j < json.elements.length; j++) {
                 if (json.elements[j].id === tilfeldigeSpillere[i]) {
@@ -52,7 +52,8 @@
                     let bilde = json.elements[j].code;
   
                     niSpillere.push({navn: navn, mål: maal, assist: assist, målPoeng: maalPoeng, bilde: bilde});
-                }
+                    sum = sum + maalPoeng 
+                               }
             }
         }
         return niSpillere;
@@ -89,14 +90,19 @@
             hentSpillereOgVisDiv1();
             visDiv = 1;
         }
+
+    }
+    function hoppOver(){
+        visDiv = 3;
     }
 </script>
 
 <body>
     <Navigasjonsbar />
     {#if visDiv === 1}
-        <div id="div1" on:click={visSpiller1}>Div 1</div>
+        <div id="div1" on:click={visSpiller1} on:keypress={visSpiller1}>Div 1</div> 
     {/if}
+
     {#if visDiv === 2}
         <div id="div2" on:click={visAlleSpillere}>
             {#if sorterteSpillere[nåværendeSpillerIndex]}
@@ -105,13 +111,14 @@
                 <p>Assist: {sorterteSpillere[nåværendeSpillerIndex].assist}</p>
                 <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${sorterteSpillere[nåværendeSpillerIndex].bilde}.png`} alt="Spillerbilde mangler :(" >
                 <p>{sorterteSpillere[nåværendeSpillerIndex].navn}</p> 
+                <button on:click={hoppOver}>Hopp over</button>
             {/if}
         </div>
     {/if}
     {#if visDiv === 3}
-        <div id="div3" on:click={visAlleSpillere}>
-            <button on:click={visSpiller1}>Tilbake til Div 1</button>
-            {#each test as spiller}
+        <div id="div3" on:click={visSpiller1}>
+            <p>Totale målpoeng: {sum}</p>
+            {#each sorterteSpillere as spiller}
                 <div id="kort">  
                     <p>Målpoeng: {spiller.målPoeng} ({spiller.mål}/{spiller.assist}) </p>
                     <p>Mål: {spiller.mål}</p>
@@ -120,7 +127,9 @@
                     <p>{spiller.navn}</p> 
                 </div>
             {/each}
+            
         </div>
+
     {/if}
 </body>
 
@@ -136,15 +145,15 @@
     }
 
     #kort img {
-        width: 100px;
-        height: 120px;
-
+        
         object-fit: cover;
         margin: 0 auto;
+        z-index: 0;
     }
 
     #kort p {
         margin: 0;
+        z-index: 1;
     }
 
     #div1 {
@@ -167,5 +176,8 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 20px;
         padding: 20px;
+    }
+    #div3 p{
+        grid-column: -1/1;
     }
 </style>
