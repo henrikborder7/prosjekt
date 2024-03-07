@@ -1,5 +1,22 @@
-<script> import Navigasjon from "./navigasjon/navigasjonsbar.svelte"</script>
+<script> 
+  import Navigasjon from "./navigasjon/navigasjonsbar.svelte"
+  import { onMount } from "svelte";
+   
+    import fil from "./plLag.json";
+    let json = JSON.parse(JSON.stringify(fil));
+    import fil2 from "./pl.json";
+    let json2 = JSON.parse(JSON.stringify(fil2));
+    let topSkaarere = [];
 
+    function sorterSpillere(spillere) {
+        const spillereKopi = [...spillere];
+        return spillereKopi.sort((a, b) => b.goals_scored - a.goals_scored);
+    }
+
+    topSkaarere = sorterSpillere(json2.elements).slice(0, 20);
+    
+    let visSpillere2 = true
+  </script>
 <body>
   <Navigasjon/>
   <div>Powered by U&N tec.</div>
@@ -57,6 +74,30 @@
       <h1>Snart spiller de på samme lag!</h1>
     </a>
   </section>
+
+  {#if visSpillere2}
+        <div class="tabell-container">
+            <h1>Premier League Tabell 2023/24</h1>
+            <!-- Legg til en identifikator til tabellen til venstre -->
+            <table id="tabell-høyre">
+                <thead>
+                    <tr>
+                        <th colspan="2">Lag</th>
+                        <th>P</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#each json.teams as team}
+                        <tr>
+                            <td>{team.position}</td>
+                            <td>{team.name}</td>
+                            <td>{team.points}</td>
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
+        </div>
+        {/if}
 </body>
 
 <style>
@@ -64,7 +105,7 @@
     margin: 0;
   }
   
-  
+
   a {
     display: inline-block;
     position: relative;
