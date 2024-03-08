@@ -1,6 +1,6 @@
 <script>
     import Navigasjonsbar from "../navigasjon/navigasjonsbar.svelte";
-    import { tick } from 'svelte';
+    import { tick } from "svelte";
     import fil1 from "../pl.json";
 
     let json = JSON.parse(JSON.stringify(fil1));
@@ -11,16 +11,16 @@
     let tilfeldigeSpillere = [];
 
     async function visSpiller1() {
-    if (visDiv === 1) {
-        visDiv = 2;
-        genererTilfeldigeSpillere();
-        hentSpillereOgVisDiv1();
-    } else {
-        visDiv = 1;
-        alleSpillereVist = false;
-        nåværendeSpillerIndex = 0;
+        if (visDiv === 1) {
+            visDiv = 2;
+            genererTilfeldigeSpillere();
+            hentSpillereOgVisDiv1();
+        } else {
+            visDiv = 1;
+            alleSpillereVist = false;
+            nåværendeSpillerIndex = 0;
+        }
     }
-}
 
     function genererTilfeldigeTall() {
         let tilfeldigeTall = [];
@@ -38,22 +38,31 @@
     }
     let test = [];
     let sorterteSpillere = [];
-    let sum = 0
+    let sum = 0;
     function hentSpillere() {
         let niSpillere = [];
-        sum = 0
+        sum = 0;
         for (let i = 0; i < tilfeldigeSpillere.length; i++) {
             for (let j = 0; j < json.elements.length; j++) {
                 if (json.elements[j].id === tilfeldigeSpillere[i]) {
-                    let navn = json.elements[j].first_name + " " + json.elements[j].second_name;
+                    let navn =
+                        json.elements[j].first_name +
+                        " " +
+                        json.elements[j].second_name;
                     let maal = json.elements[j].goals_scored;
                     let assist = json.elements[j].assists;
                     let maalPoeng = maal + assist;
                     let bilde = json.elements[j].code;
-  
-                    niSpillere.push({navn: navn, mål: maal, assist: assist, målPoeng: maalPoeng, bilde: bilde});
-                    sum = sum + maalPoeng 
-                               }
+
+                    niSpillere.push({
+                        navn: navn,
+                        mål: maal,
+                        assist: assist,
+                        målPoeng: maalPoeng,
+                        bilde: bilde,
+                    });
+                    sum = sum + maalPoeng;
+                }
             }
         }
         return niSpillere;
@@ -65,7 +74,7 @@
     }
 
     function sortereSpillereSynkende(a, b) {
-        return b.målPoeng + (b.mål * 0.1) - (a.målPoeng + (b.mål * 0.1));
+        return b.målPoeng + b.mål * 0.1 - (a.målPoeng + b.mål * 0.1);
     }
 
     let besteSpiller = {};
@@ -90,9 +99,8 @@
             hentSpillereOgVisDiv1();
             visDiv = 1;
         }
-
     }
-    function hoppOver(){
+    function hoppOver() {
         visDiv = 3;
     }
 </script>
@@ -100,84 +108,132 @@
 <body>
     <Navigasjonsbar />
     {#if visDiv === 1}
-        <div id="div1" on:click={visSpiller1} on:keypress={visSpiller1}>Div 1</div> 
+        <div id="div1" on:click={visSpiller1} on:keypress={visSpiller1}></div>
     {/if}
 
     {#if visDiv === 2}
         <div id="div2" on:click={visAlleSpillere}>
             {#if sorterteSpillere[nåværendeSpillerIndex]}
-                <p>Målpoeng: {sorterteSpillere[nåværendeSpillerIndex].målPoeng} ({sorterteSpillere[nåværendeSpillerIndex].mål}/{sorterteSpillere[nåværendeSpillerIndex].assist}) </p>
-                <p>Mål: {sorterteSpillere[nåværendeSpillerIndex].mål}</p>
-                <p>Assist: {sorterteSpillere[nåværendeSpillerIndex].assist}</p>
-                <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${sorterteSpillere[nåværendeSpillerIndex].bilde}.png`} alt="Spillerbilde mangler :(" >
-                <p>{sorterteSpillere[nåværendeSpillerIndex].navn}</p> 
+                <div id="tekst_div2">
+                    <p id="stor_skrift_div2">
+                        <b>
+                            {sorterteSpillere[nåværendeSpillerIndex].målPoeng}
+                        </b>
+                    </p>
+                </div>
+                <img
+                    src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${sorterteSpillere[nåværendeSpillerIndex].bilde}.png`}
+                    alt="Spillerbilde mangler :("
+                />
+                <p id="navn">{sorterteSpillere[nåværendeSpillerIndex].navn}</p>
+                <p>{sorterteSpillere[nåværendeSpillerIndex].mål}</p>
+                <p>{sorterteSpillere[nåværendeSpillerIndex].assist}</p>
                 <button on:click={hoppOver}>Hopp over</button>
             {/if}
         </div>
     {/if}
     {#if visDiv === 3}
         <div id="div3" on:click={visSpiller1}>
-            <p>Totale målpoeng: {sum}</p>
+            <p id="hvit_tekst">Totale målpoeng: {sum}</p>
             {#each sorterteSpillere as spiller}
-                <div id="kort">  
-                    <p>Målpoeng: {spiller.målPoeng} ({spiller.mål}/{spiller.assist}) </p>
-                    <p>Mål: {spiller.mål}</p>
-                    <p>Assist: {spiller.assist}</p>
-                    <img src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${spiller.bilde}.png`} alt="Spillerbilde mangler :(" >
-                    <p>{spiller.navn}</p> 
+                <div id="kort">
+                    <div id="test">
+                        <p id="stor_skrift_div3"><b>{spiller.målPoeng}</b></p>
+                        <p>{spiller.mål}</p>
+                        <p>{spiller.assist}</p>
+                    </div>
+                    <img
+                        src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${spiller.bilde}.png`}
+                        alt="Spillerbilde mangler :("
+                    />
+
+                    <p>{spiller.navn}</p>
                 </div>
             {/each}
-            
         </div>
-
     {/if}
 </body>
 
 <style>
+    #hvit_tekst {
+        color: white;
+        justify-self: center;
+    }
+    #navn {
+        justify-self: center;
+        margin: 0;
+    }
     #kort {
-        background-color: gold;
-        border-radius: 10px;
-        padding: 20px;
         display: grid;
         grid-template-rows: auto auto auto auto auto auto;
-        gap: 10px;
+        padding: 5px;
         text-align: center;
+        border-radius: 5px;
+        background-image: url("https://cardsplug.com/cdn/shop/products/S23ShinyGoldBlank_13658bf6-feff-4b5e-b72f-3b942d911e1d.png?v=1663878408");
+        background-repeat: no-repeat;
+        background-size: contain;
     }
 
     #kort img {
-        
         object-fit: cover;
         margin: 0 auto;
-        z-index: 0;
+        width: auto;
+        height: 110px;
+        padding-top: 5px;
     }
 
-    #kort p {
+    #test {
         margin: 0;
-        z-index: 1;
+        padding: 0;
+        position: absolute;
+    }
+    #stor_skrift_div2 {
+        font-size: 20px;
     }
 
     #div1 {
-        width: 1000px;
-        height: 1000px;
-        background-color: red;
+        width: 400px;
+        height: 625px;
+        background-image: url("https://cdn.futwiz.com/assets/img/packs/fifa22-pack.png?r=4");
+        background-repeat: no-repeat;
+        background-size: contain;
     }
 
     #div2 {
-        width: 1000px;
-        height: 1000px;
+        width: 400px;
+        height: 625px;
         background-color: blue;
+        display: grid;
+        background-image: url("https://cardsplug.com/cdn/shop/products/S23ShinyGoldBlank_13658bf6-feff-4b5e-b72f-3b942d911e1d.png?v=1663878408");
+        background-repeat: no-repeat;
+        background-size: contain;
+        gap: 0;
     }
+    #div2 img {
+        object-fit: cover;
+        margin: 0 auto;
+        width: auto;
 
+        padding-top: 5px;
+    }
+    #tekst_div2 {
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+    }
     #div3 {
-        width: 1000px;
-        height: 1000px;
+        width: 400px;
+        height: 625px;
         background-color: green;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        padding: 20px;
+        gap: 5px;
+        padding: 5px;
     }
-    #div3 p{
+    #div3 p {
         grid-column: -1/1;
     }
 </style>
