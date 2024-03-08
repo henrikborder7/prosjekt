@@ -23,7 +23,10 @@
 
     function visSpillerInfo(spiller) {
         // Find the player's information based on the selected player's name
-        selectedPlayerInfo = json2.elements.find(player => player.first_name + " " + player.second_name === spiller);
+        selectedPlayerInfo = json2.elements.find(
+            (player) =>
+                player.first_name + " " + player.second_name === spiller,
+        );
     }
 
     onMount(() => {
@@ -31,7 +34,7 @@
             const teamName = event.target
                 .closest("tr")
                 .querySelector("td:nth-child(2)").textContent;
-            return teamName;
+            return teamName.trim(); // Remove leading and trailing white spaces
         }
 
         document
@@ -45,47 +48,24 @@
             });
 
         function hentID() {
-            for (let i = 0; i < json2.teams.length; i++) {
-                if (json2.teams[i].name === lag) {
-                    id = json2.teams[i].id;
-                    console.log(id);
-                    break; // Add a break statement to exit the loop once the ID is found
-                }
-            }
+            const team = json2.teams.find(
+                (team) => team.name.trim().toLowerCase() === lag.toLowerCase()
+            );
+            id = team ? team.id : null;
+            console.log(id);
         }
 
         function hentSpillere() {
             spillere = [];
-            for (let i = 0; i < json2.elements.length; i++) {
-                if (json2.elements[i].team == id) {
-                    spillere.push(
-                        json2.elements[i].first_name +
-                            " " +
-                            json2.elements[i].second_name,
-                    );
-                }
-            }
-        }
-    })
-
-        function hentID() {
-            for (let i = 0; i < json2.teams.length; i++) {
-                if (json2.teams[i].name === lag) {
-                    id = json2.teams[i].id;
-                    console.log(id);
-                }
-            }
-        }
-
-        function hentSpillere() {
-            spillere = [];
-            for (let i = 0; i < json2.elements.length; i++) {
-                if (json2.elements[i].team == id) {
-                    spillere.push(
-                        json2.elements[i].first_name +
-                            " " +
-                            json2.elements[i].second_name,
-                    );
+            if (id !== null) {
+                for (let i = 0; i < json2.elements.length; i++) {
+                    if (json2.elements[i].team == id) {
+                        spillere.push(
+                            json2.elements[i].first_name +
+                                " " +
+                                json2.elements[i].second_name
+                        );
+                    }
                 }
             }
         }
@@ -98,75 +78,110 @@
 
     let visSpillere2 = true;
 </script>
+
 <body>
     <Navigasjon />
 
     <div class="hovedcontainer">
         {#if visSpillere2}
-        <div class="tabell-container">
-            <h1>Premier League Tabell 2023/24</h1>
-            <!-- Legg til en identifikator til tabellen til venstre -->
-            <table id="tabell-venstre">
-                <thead>
-                    <tr>
-                        <th colspan="2">Lag</th>
-                        <th>S</th>
-                        <th>V</th>
-                        <th>U</th>
-                        <th>T</th>
-                        <th>Mål</th>
-                        <th>MF</th>
-                        <th>P</th>
-                    </tr>
-                </thead>
-                <tbody style="cursor:pointer">
-                    {#each json.teams as team}
+            <div class="tabell-container">
+                <h1>Premier League Tabell 2023/24</h1>
+                <!-- Legg til en identifikator til tabellen til venstre -->
+                <table id="tabell-venstre">
+                    <thead>
                         <tr>
-                            <td>{team.position}</td>
-                            <td>{team.name}</td>
-                            <td>{team.played}</td>
-                            <td>{team.wins}</td>
-                            <td>{team.draws}</td>
-                            <td>{team.losses}</td>
-                            <td>{team.goals_for} - {team.goals_against}</td>
-                            <td>{team.goals_for - team.goals_against}</td>
-                            <td>{team.points}</td>
+                            <th colspan="2">Lag</th>
+                            <th>S</th>
+                            <th>V</th>
+                            <th>U</th>
+                            <th>T</th>
+                            <th>Mål</th>
+                            <th>MF</th>
+                            <th>P</th>
                         </tr>
-                    {/each}
-                </tbody>
-            </table>
-        </div>
-        {/if}
-        {#if !visSpillere2}
+                    </thead>
+                    <tbody class="tabell" style="cursor:pointer">
+                        {#each json.teams as team}
+                            <tr>
+                                <td>{team.position}</td>
+                                <td>{team.name}</td>
+                                <td>{team.played}</td>
+                                <td>{team.wins}</td>
+                                <td>{team.draws}</td>
+                                <td>{team.losses}</td>
+                                <td>{team.goals_for} - {team.goals_against}</td>
+                                <td>{team.goals_for - team.goals_against}</td>
+                                <td>{team.points}</td>
+                            </tr>
+                        {/each}
+                    </tbody>
+                </table>
+                <p><span id="CL">   ....</span> - Champions League</p>
+                <div id="EL"></div><p>- Europa League</p>
+                <div id="CL2"></div><p>- Confrence League</p>
+                <div id="nedrykk"></div><p>- Nedrykk</p>
 
+            </div>
         {/if}
+        {#if !visSpillere2}{/if}
         {#if visSpillere}
             <div class="vis-spillere">
-              
-                <h1>Spillerstall</h1>   
-        
-                
+                <h1>Spillerstall</h1>
+
                 <div>
                     <button on:click={gjorFalse}>Skjul</button>
                 </div>
                 <ul class="spillerStall">
                     {#each spillere as spiller}
-                        <li on:click={() => visSpillerInfo(spiller)} style="cursor:pointer">{spiller}</li>
+                        <li
+                            on:click={() => visSpillerInfo(spiller)}
+                            style="cursor:pointer"
+                        >
+                            {spiller}
+                        </li>
                     {/each}
                 </ul>
             </div>
         {/if}
 
         {#if selectedPlayerInfo !== null}
-    <div class="selected-player-info">
-        <h2>{selectedPlayerInfo.first_name} {selectedPlayerInfo.second_name}</h2>
-        <!-- Display other player information as needed -->
-        <p>Team: {selectedPlayerInfo.team}</p>
-        <p>Position: {selectedPlayerInfo.element_type}</p>
-        <!-- Add more details based on your JSON structure -->
-        <!-- ... -->
-    </div>
-{/if}
+       
+        <div>
+            <button on:click={gjorFalse}>Skjul</button>
+        </div>
+            <div class="selected-player-info">
+                <h2>
+                    {selectedPlayerInfo.first_name}
+                    {selectedPlayerInfo.second_name}
+                </h2>
+                <img
+                    src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${selectedPlayerInfo.code}.png`}
+                    alt="Spillerbilde mangler :("
+                />
+                <!-- Display other player information as needed -->
+                <p>Lag: {selectedPlayerInfo.team}</p>
+                <p>Posisjon: {selectedPlayerInfo.element_type}</p>
+                {#if selectedPlayerInfo.news !== ""}
+                    <p>Status: {selectedPlayerInfo.news}</p>
+                {/if}
+
+                <p>Antall mål: {selectedPlayerInfo.goals_scored}</p>
+                <p>Antall assist: {selectedPlayerInfo.assist}</p>
+                {#if selectedPlayerInfo.element_type == 1 || selectedPlayerInfo.element_type == 2}
+                    <p>Rent bur:{selectedPlayerInfo.clean_sheets}</p>
+                {/if}
+                {#if selectedPlayerInfo.element_type == 1}
+                    <p>Straffer reddet: {selectedPlayerInfo.penalties_saved}</p>
+                {/if}
+                {#if selectedPlayerInfo.element_type == 4}
+                    <p>
+                        Forventa mål per 90 min: {selectedPlayerInfo.expected_goals_per_90}
+                    </p>
+                {/if}
+                <!-- Add more details based on your JSON structure -->
+                <!-- ... -->
+            </div>
+        {/if}
         {#if !visSpillere}
             <div class="top-scorers">
                 <h1>Toppscorere</h1>
@@ -193,8 +208,8 @@
 </body>
 
 <style>
-    body{
-        margin:0
+    body {
+        margin: 0;
     }
     .hovedcontainer {
         display: grid;
@@ -283,10 +298,39 @@
     .vis-spillere button:hover {
         background-color: #ddd;
     }
+    .tabell tr:nth-child(1),
+    .tabell tr:nth-child(2),
+    .tabell tr:nth-child(3),
+    .tabell tr:nth-child(4) {
+        border-left: 2px solid blue; /* Blue border for the first 4 teams */
+    }
+
+    .tabell tr:nth-child(5),
+    .tabell tr:nth-child(6){
+        border-left: 2px solid rgb(245, 164, 34); /* Orange border for the next 2 teams */
+    }
+
+    .tabell tr:nth-child(7){
+        border-left: 2px solid rgb(17, 231, 17); /* Green border for the next team */
+    }
+
+    .tabell tr:nth-child(18),
+    .tabell tr:nth-child(19),
+    .tabell tr:nth-child(20){
+        border-left: 2px solid red; /* Red border for the last 3 teams */
+    }
 
     @media screen and (max-width: 1050px) {
         .hovedcontainer {
             grid-template-columns: 1fr;
         }
+    }
+    #CL{
+        background-color:  blue;
+        width:10px;
+        height:10px;
+        color:blue;
+        border-radius:2px
+
     }
 </style>

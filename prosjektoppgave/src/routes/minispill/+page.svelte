@@ -108,11 +108,11 @@
 <body>
     <Navigasjonsbar />
     {#if visDiv === 1}
-        <div id="div1" on:click={visSpiller1} on:keypress={visSpiller1}></div>
+        <div id="div1" on:click={visSpiller1} on:keypress={visSpiller1} style="cursor: pointer;"></div>
     {/if}
 
     {#if visDiv === 2}
-        <div id="div2" on:click={visAlleSpillere}>
+        <div id="div2" on:click={visAlleSpillere} style="cursor: pointer;">
             {#if sorterteSpillere[nåværendeSpillerIndex]}
                 <div id="tekst_div2">
                     <p id="stor_skrift_div2">
@@ -133,7 +133,7 @@
         </div>
     {/if}
     {#if visDiv === 3}
-        <div id="div3" on:click={visSpiller1}>
+        <div id="div3" on:click={visSpiller1} style="cursor: pointer;">
             <p id="hvit_tekst">Totale målpoeng: {sum}</p>
             {#each sorterteSpillere as spiller}
                 <div id="kort">
@@ -155,6 +155,9 @@
 </body>
 
 <style>
+    body{
+        margin:0;
+    }
     #hvit_tekst {
         color: white;
         justify-self: center;
