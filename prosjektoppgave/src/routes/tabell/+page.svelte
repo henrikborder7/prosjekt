@@ -313,6 +313,10 @@
     .tabell tr:nth-child(7){
         border-left: 2px solid rgb(17, 231, 17); /* Green border for the next team */
     }
+    .tabell tr:nth-child(17){
+        border-bottom: 2px solid rgb(55, 55, 55); /* Green border for the next team */
+    }
+
 
     .tabell tr:nth-child(18),
     .tabell tr:nth-child(19),
