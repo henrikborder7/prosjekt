@@ -19,6 +19,13 @@
 
     topSkaarere = sorterSpillere(json2.elements).slice(0, 20);
 
+    let selectedPlayerInfo = null;
+
+    function visSpillerInfo(spiller) {
+        // Find the player's information based on the selected player's name
+        selectedPlayerInfo = json2.elements.find(player => player.first_name + " " + player.second_name === spiller);
+    }
+
     onMount(() => {
         function findTeamName(event) {
             const teamName = event.target
@@ -27,18 +34,39 @@
             return teamName;
         }
 
-        // Legg til en eventlistener som lytter etter klikk på tabellen til venstre
         document
             .querySelector("#tabell-venstre")
             .addEventListener("click", (event) => {
                 lag = findTeamName(event);
-                console.log(lag); // Her kan du gjøre hva du vil med navnet på laget
                 visSpillere = true;
 
-                // Når lag variabelen er satt, kall hentID og hentSpillere
                 hentID();
                 hentSpillere();
             });
+
+        function hentID() {
+            for (let i = 0; i < json2.teams.length; i++) {
+                if (json2.teams[i].name === lag) {
+                    id = json2.teams[i].id;
+                    console.log(id);
+                    break; // Add a break statement to exit the loop once the ID is found
+                }
+            }
+        }
+
+        function hentSpillere() {
+            spillere = [];
+            for (let i = 0; i < json2.elements.length; i++) {
+                if (json2.elements[i].team == id) {
+                    spillere.push(
+                        json2.elements[i].first_name +
+                            " " +
+                            json2.elements[i].second_name,
+                    );
+                }
+            }
+        }
+    })
 
         function hentID() {
             for (let i = 0; i < json2.teams.length; i++) {
@@ -63,16 +91,13 @@
         }
     });
 
-
-
     function gjorFalse() {
         visSpillere = false;
+        selectedPlayerInfo = null; // Reset selected player information when hiding the player list
     }
 
-
-    let visSpillere2 = true
+    let visSpillere2 = true;
 </script>
-
 <body>
     <Navigasjon />
 
@@ -117,17 +142,31 @@
         {/if}
         {#if visSpillere}
             <div class="vis-spillere">
-                <h1>Spillerstall</h1>
+              
+                <h1>Spillerstall</h1>   
+        
+                
                 <div>
                     <button on:click={gjorFalse}>Skjul</button>
                 </div>
                 <ul class="spillerStall">
                     {#each spillere as spiller}
-                        <li style="cursor:pointer">{spiller}</li>
+                        <li on:click={() => visSpillerInfo(spiller)} style="cursor:pointer">{spiller}</li>
                     {/each}
                 </ul>
             </div>
         {/if}
+
+        {#if selectedPlayerInfo !== null}
+    <div class="selected-player-info">
+        <h2>{selectedPlayerInfo.first_name} {selectedPlayerInfo.second_name}</h2>
+        <!-- Display other player information as needed -->
+        <p>Team: {selectedPlayerInfo.team}</p>
+        <p>Position: {selectedPlayerInfo.element_type}</p>
+        <!-- Add more details based on your JSON structure -->
+        <!-- ... -->
+    </div>
+{/if}
         {#if !visSpillere}
             <div class="top-scorers">
                 <h1>Toppscorere</h1>
@@ -154,6 +193,9 @@
 </body>
 
 <style>
+    body{
+        margin:0
+    }
     .hovedcontainer {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

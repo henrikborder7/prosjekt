@@ -8,7 +8,7 @@
     <a class="lenker" href="../tabell">Tabell</a>
     <a class="lenker" href="../butikk">Butikk</a>
     <a class="lenker" href="../nyheter">Nyheter</a>
-    <a class="lenker" href="#">Kontakt</a>
+    <a class="lenker" href="../minispill">Spill</a>
     <a class="nyhetsknapp" href="../nyheter">Nyhetsbrev</a>
   </section>
 <style>
