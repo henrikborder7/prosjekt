@@ -34,6 +34,10 @@
             const teamName = event.target
                 .closest("tr")
                 .querySelector("td:nth-child(2)").textContent;
+
+            let darwin = event.target.closest("tr");
+            console.log("darwin" + darwin);
+            console.log("teamName" + teamName);
             return teamName.trim(); // Remove leading and trailing white spaces
         }
 
@@ -47,7 +51,7 @@
                 hentSpillere();
             });
 
-            function hentID() {
+        function hentID() {
             const team = json2.teams.find(
                 (team) => team.name.trim().toLowerCase() === lag.toLowerCase(),
             );
@@ -77,6 +81,18 @@
     }
 
     let visSpillere2 = true;
+
+    let selectedRowIndex = null;
+
+    function handleRowClick(index) {
+        if (selectedRowIndex === index) {
+            // Hvis samme rad blir klikket igjen, gå tilbake til forrige tilstand
+            selectedRowIndex = null;
+        } else {
+            // Sett den nye raden som valgt
+            selectedRowIndex = index;
+        }
+    }
 </script>
 
 <body>
@@ -102,7 +118,12 @@
                     </thead>
                     <tbody class="tabell" style="cursor:pointer">
                         {#each json.teams as team}
-                            <tr>
+                            <tr
+                                on:click={() =>
+                                    handleRowClick(team.position - 1)}
+                                class:selected={selectedRowIndex ===
+                                    team.position - 1}
+                            >
                                 <td>{team.position}</td>
                                 <td>{team.name}</td>
                                 <td>{team.played}</td>
@@ -128,7 +149,7 @@
         {#if !visSpillere2}{/if}
         {#if visSpillere}
             <div class="vis-spillere">
-                <h1>Spillerstall</h1>
+                <h1>Spillerstall - {lag}</h1>
 
                 <div>
                     <button on:click={gjorFalse}>Skjul</button>
@@ -335,5 +356,8 @@
         height: 10px;
         color: blue;
         border-radius: 2px;
+    }
+    .selected {
+        background-color: lightblue;
     }
 </style>
