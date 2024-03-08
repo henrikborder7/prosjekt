@@ -14,7 +14,6 @@
     }
 
     topSkaarere = sorterSpillere(json2.elements).slice(0, 20);
-    
     let visSpillere2 = true
   </script>
 <body>
@@ -76,8 +75,8 @@
   </section>
 
   {#if visSpillere2}
-        <div class="tabell-container">
-            <h1>Premier League Tabell 2023/24</h1>
+        <div class="tabell-container" >
+            
             <!-- Legg til en identifikator til tabellen til venstre -->
             <table id="tabell-høyre">
                 <thead>
@@ -86,7 +85,7 @@
                         <th>P</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody style="cursor:pointer">
                     {#each json.teams as team}
                         <tr>
                             <td>{team.position}</td>

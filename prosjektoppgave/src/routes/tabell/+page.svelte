@@ -94,7 +94,7 @@
                         <th>P</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody style="cursor:pointer">
                     {#each json.teams as team}
                         <tr>
                             <td>{team.position}</td>
@@ -123,7 +123,7 @@
                 </div>
                 <ul class="spillerStall">
                     {#each spillere as spiller}
-                        <li>{spiller}</li>
+                        <li style="cursor:pointer">{spiller}</li>
                     {/each}
                 </ul>
             </div>
@@ -139,7 +139,7 @@
                             <th>Mål</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="cursor:pointer">
                         {#each topSkaarere as player, index}
                             <tr>
                                 <td>{index + 1}</td>
