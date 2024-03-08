@@ -47,9 +47,9 @@
                 hentSpillere();
             });
 
-        function hentID() {
+            function hentID() {
             const team = json2.teams.find(
-                (team) => team.name.trim().toLowerCase() === lag.toLowerCase()
+                (team) => team.name.trim().toLowerCase() === lag.toLowerCase(),
             );
             id = team ? team.id : null;
             console.log(id);
@@ -63,7 +63,7 @@
                         spillere.push(
                             json2.elements[i].first_name +
                                 " " +
-                                json2.elements[i].second_name
+                                json2.elements[i].second_name,
                         );
                     }
                 }
@@ -116,11 +116,13 @@
                         {/each}
                     </tbody>
                 </table>
-                <p><span id="CL">   ....</span> - Champions League</p>
-                <div id="EL"></div><p>- Europa League</p>
-                <div id="CL2"></div><p>- Confrence League</p>
-                <div id="nedrykk"></div><p>- Nedrykk</p>
-
+                <p><span id="CL"> ....</span> - Champions League</p>
+                <div id="EL"></div>
+                <p>- Europa League</p>
+                <div id="CL2"></div>
+                <p>- Confrence League</p>
+                <div id="nedrykk"></div>
+                <p>- Nedrykk</p>
             </div>
         {/if}
         {#if !visSpillere2}{/if}
@@ -145,10 +147,9 @@
         {/if}
 
         {#if selectedPlayerInfo !== null}
-       
-        <div>
-            <button on:click={gjorFalse}>Skjul</button>
-        </div>
+            <div>
+                <button on:click={gjorFalse}>Skjul</button>
+            </div>
             <div class="selected-player-info">
                 <h2>
                     {selectedPlayerInfo.first_name}
@@ -306,21 +307,20 @@
     }
 
     .tabell tr:nth-child(5),
-    .tabell tr:nth-child(6){
+    .tabell tr:nth-child(6) {
         border-left: 2px solid rgb(245, 164, 34); /* Orange border for the next 2 teams */
     }
 
-    .tabell tr:nth-child(7){
+    .tabell tr:nth-child(7) {
         border-left: 2px solid rgb(17, 231, 17); /* Green border for the next team */
     }
-    .tabell tr:nth-child(17){
+    .tabell tr:nth-child(17) {
         border-bottom: 2px solid rgb(55, 55, 55); /* Green border for the next team */
     }
 
-
     .tabell tr:nth-child(18),
     .tabell tr:nth-child(19),
-    .tabell tr:nth-child(20){
+    .tabell tr:nth-child(20) {
         border-left: 2px solid red; /* Red border for the last 3 teams */
     }
 
@@ -329,12 +329,11 @@
             grid-template-columns: 1fr;
         }
     }
-    #CL{
-        background-color:  blue;
-        width:10px;
-        height:10px;
-        color:blue;
-        border-radius:2px
-
+    #CL {
+        background-color: blue;
+        width: 10px;
+        height: 10px;
+        color: blue;
+        border-radius: 2px;
     }
 </style>
