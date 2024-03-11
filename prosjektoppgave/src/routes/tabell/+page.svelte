@@ -138,12 +138,9 @@
                     </tbody>
                 </table>
                 <p><span id="CL"> ....</span> - Champions League</p>
-                <div id="EL"></div>
-                <p>- Europa League</p>
-                <div id="CL2"></div>
-                <p>- Confrence League</p>
-                <div id="nedrykk"></div>
-                <p>- Nedrykk</p>
+                <p><span id="EL"> ....</span> - Europa League</p>
+                <p><span id="CL2"> ....</span> - Confrence League</p>
+                <p><span id="nedrykk"> ....</span> - Nedrykk</p>
             </div>
         {/if}
         {#if !visSpillere2}{/if}
@@ -324,25 +321,23 @@
     .tabell tr:nth-child(2),
     .tabell tr:nth-child(3),
     .tabell tr:nth-child(4) {
-        border-left: 2px solid blue; /* Blue border for the first 4 teams */
+        border-left: 3px solid blue; /* Blue border for the first 4 teams */
     }
 
     .tabell tr:nth-child(5),
     .tabell tr:nth-child(6) {
-        border-left: 2px solid rgb(245, 164, 34); /* Orange border for the next 2 teams */
+        border-left: 3px solid rgb(245, 164, 34); /* Orange border for the next 2 teams */
     }
 
     .tabell tr:nth-child(7) {
-        border-left: 2px solid rgb(17, 231, 17); /* Green border for the next team */
+        border-left: 3px solid rgb(17, 231, 17); /* Green border for the next team */
     }
-    .tabell tr:nth-child(17) {
-        border-bottom: 2px solid rgb(55, 55, 55); /* Green border for the next team */
-    }
+   
 
     .tabell tr:nth-child(18),
     .tabell tr:nth-child(19),
     .tabell tr:nth-child(20) {
-        border-left: 2px solid red; /* Red border for the last 3 teams */
+        border-left: 3px solid red; /* Red border for the last 3 teams */
     }
 
     @media screen and (max-width: 1050px) {
@@ -357,6 +352,28 @@
         color: blue;
         border-radius: 2px;
     }
+    #EL {
+        background-color: rgb(255, 183, 0);
+        width: 10px;
+        height: 10px;
+        color: rgb(255, 183, 0);
+        border-radius: 2px;
+    }
+    #CL2 {
+        background-color: rgb(89, 255, 0);
+        width: 10px;
+        height: 10px;
+        color: rgb(89, 255, 0);
+        border-radius: 2px;
+    }
+    #nedrykk {
+        background-color: rgb(255, 0, 0);
+        width: 10px;
+        height: 10px;
+        color: rgb(255, 0, 0);
+        border-radius: 2px;
+    }
+
     .selected {
         background-color: lightblue;
     }
