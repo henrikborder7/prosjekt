@@ -151,6 +151,11 @@
         console.log("cart:", cart, "Cartitems:", cartItems);
     }
 
+    function removeProductFromCart(productId) {
+        cartItems = cartItems.filter((item) => item.id !== productId);
+        updateCart();
+    }
+
     let initialProductsToShow = 8; // Number of products to initially display
     let productsToShow = initialProductsToShow;
     const productsPerLoad = 4; // Number of products to load on each "Load More" click
@@ -190,10 +195,7 @@
         console.log("rangeText "+rangeText)
     }
 
-    function removeProductFromCart(productId) {
-        cartItems = cartItems.filter((item) => item.id !== productId);
-        updateCart();
-    }
+
 </script>
 
 <header>
