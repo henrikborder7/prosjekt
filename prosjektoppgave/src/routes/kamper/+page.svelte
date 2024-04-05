@@ -2,9 +2,13 @@
     let selectedRowIndex = null;
   
     function handleRowClick(index) {
-
+      if (selectedRowIndex === index) {
+        // Hvis samme rad blir klikket igjen, gå tilbake til forrige tilstand
+        selectedRowIndex = null;
+      } else {
+        // Sett den nye raden som valgt
         selectedRowIndex = index;
-
+      }
     }
   </script>
   
