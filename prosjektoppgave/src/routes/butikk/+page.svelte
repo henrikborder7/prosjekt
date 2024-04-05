@@ -1,8 +1,8 @@
 <script>
     let cart = 0;
     let pris = 0;
-    let navn ="";
-    let email ="";
+    let navn = "";
+    let email = "";
     let cartItems = [];
 
     let produkt = [
@@ -50,7 +50,7 @@
             name: "Manchester United FC ",
             pris: 0,
             beskrivelse: "Rotten klubb gis bort.",
-            bilde: "https://yt3.googleusercontent.com/TDwtV-eV1UitynrmZjOnnlFCsNeoNYG3z15fDsr4P8xJkSUqWhFYC6a77namw4P0TiYS2No7=s900-c-k-c0x00ffffff-no-rj",
+            bilde: "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png",
         },
         {
             id: 7,
@@ -100,25 +100,23 @@
             bilde: "https://thumblr.uniid.it/product/29044/aca0f8d5f6d3.jpg",
         },
     ];
-
-   
-
+    $: produktSomSkalVises = produkt.slice(0,productsToShow)
     let searchQuery = "";
-  let searchedProducts = [];
+    let searchedProducts = [];
 
-  function searchProducts() {
-    searchedProducts = produkt.filter(product =>
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) 
-    );
+    function searchProducts() {
+        searchedProducts = produkt.filter((product) =>
+            product.name.toLowerCase().includes(searchQuery.toLowerCase()),
+        );
 
-    // Reset productsToShow when a search is performed
-    productsToShow = initialProductsToShow;
-  }
+        // Reset productsToShow when a search is performed
+        productsToShow = initialProductsToShow;
+    }
 
-  function resetSearch() {
-    searchQuery = "";
-    searchedProducts = [];
-  }
+    function resetSearch() {
+        searchQuery = "";
+        searchedProducts = [];
+    }
     function addProductToCart(product) {
         let existingItem = cartItems.find((item) => item.id === product.id);
 
@@ -144,41 +142,54 @@
         }
     }
 
-
-  
-
     function updateCart() {
         cart = cartItems.reduce((total, item) => total + item.quantity, 0);
-        pris = cartItems.reduce((total, item) => total + item.quantity * item.pris, 0);
+        pris = cartItems.reduce(
+            (total, item) => total + item.quantity * item.pris,
+            0,
+        );
         console.log("cart:", cart, "Cartitems:", cartItems);
     }
+
     let initialProductsToShow = 8; // Number of products to initially display
     let productsToShow = initialProductsToShow;
     const productsPerLoad = 4; // Number of products to load on each "Load More" click
 
     function loadMore() {
-    if (productsToShow + productsPerLoad <= searchedProducts.length || searchedProducts.length === 0) {
-        productsToShow += productsPerLoad;
-        updateProducts();
-    }
-    updateCart();
-}
-
-function showLess() {
-    if (productsToShow > initialProductsToShow) {
-        productsToShow -= productsPerLoad;
-        updateProducts();
+        console.log(searchedProducts.length)
+        if (
+            productsToShow + productsPerLoad <= searchedProducts.length ||
+            searchedProducts.length === 0
+        ) {
+            productsToShow += productsPerLoad;
+            updateProducts();
+        }
         updateCart();
     }
-}
 
+    function showLess() {
+        if (productsToShow > initialProductsToShow) {
+            productsToShow -= productsPerLoad;
+            updateProducts();
+            updateCart();
+        }
+    }
 
-function updateProducts() {
-    const totalProducts = searchedProducts.length > 0 ? searchedProducts.length : produkt.length;
-    const rangeText = `${Math.min(productsToShow, totalProducts)}/${totalProducts} produkter vises`;
+    function updateProducts() {
+        console.log("searched products "+searchedProducts)
+        console.log("searchedProducts.length "+searchedProducts.length)
+        console.log("produkt.length "+produkt.length)
+        const totalProducts =
+            searchedProducts.length > 0
+                ? searchedProducts.length
+                : produkt.length;
+        const rangeText = `${Math.min(productsToShow, totalProducts)}/${totalProducts} produkter vises`;
+        console.log("total products "+totalProducts)
 
-    document.querySelector(".product-range").innerText = rangeText;
-}
+        document.querySelector(".product-range").innerText = rangeText;
+        console.log("rangeText "+rangeText)
+    }
+
     function removeProductFromCart(productId) {
         cartItems = cartItems.filter((item) => item.id !== productId);
         updateCart();
@@ -186,8 +197,13 @@ function updateProducts() {
 </script>
 
 <header>
-    <h1> <img src="https://soccerarmor.com/wp-content/uploads/2022/11/Premier_League_Logo.svg_.png"alt="Premier Leauge">
-    -Butikken</h1>
+    <h1>
+        <img
+            src="https://soccerarmor.com/wp-content/uploads/2022/11/Premier_League_Logo.svg_.png"
+            alt="Premier Leauge"
+        />
+        -Butikken
+    </h1>
 </header>
 
 <body>
@@ -212,79 +228,97 @@ function updateProducts() {
         </div>
     </nav>
     <div class="search-container">
-        <input class="søkefelt" bind:value={searchQuery} placeholder="Søk i produkter...">
+        <input
+            class="søkefelt"
+            bind:value={searchQuery}
+            placeholder="Søk i produkter..."
+        />
         <button on:click={searchProducts}>Søk</button>
         {#if searchedProducts.length > 0}
-          <button on:click={resetSearch}>Vis alle produkter</button>
+            <button on:click={resetSearch}>Vis alle produkter</button>
         {/if}
-      </div>
-      
-      <main>
+    </div>
+
+    <main>
         {#if searchQuery === ""}
-          {#each produkt as product (product.id)}
-            <!-- Display all products -->
-            <div class="product">
-              <h2>{product.name}</h2>
-              <img src={product.bilde} alt={"Bilde av " + product.name} />
-              <p>{product.beskrivelse}</p>
-              <p>Pris: {product.pris},-</p>
-              <button on:click={() => addProductToCart(product)}>Legg til i handlevogna</button>
-            </div>
-          {/each}
-        {:else}
-          {#if searchedProducts.length > 0}
-            {#each searchedProducts as product (product.id)}
-              <!-- Display the matching products -->
-              <div class="product">
-                <h2>{product.name}</h2>
-                <img src={product.bilde} alt={"Bilde av " + product.name} />
-                <p>{product.beskrivelse}</p>
-                <p>Pris: {product.pris},-</p>
-                <button on:click={() => addProductToCart(product)}>Legg til i handlevogna</button>
-              </div>
+            {#each produktSomSkalVises as product (product.id)}
+                <!-- Display all products -->
+                <div class="product">
+                    <h2>{product.name}</h2>
+                    <img src={product.bilde} alt={"Bilde av " + product.name} />
+                    <p>{product.beskrivelse}</p>
+                    <p>Pris: {product.pris},-</p>
+                    <button on:click={() => addProductToCart(product)}
+                        >Legg til i handlevogna</button
+                    >
+                </div>
             {/each}
-          {:else}
+        {:else if searchedProducts.length > 0}
+            {#each searchedProducts as product (product.id)}
+                <!-- Display the matching products -->
+                <div class="product">
+                    <h2>{product.name}</h2>
+                    <img src={product.bilde} alt={"Bilde av " + product.name} />
+                    <p>{product.beskrivelse}</p>
+                    <p>Pris: {product.pris},-</p>
+                    <button on:click={() => addProductToCart(product)}
+                        >Legg til i handlevogna</button
+                    >
+                </div>
+            {/each}
+        {:else}
             <p>Ingen produkter funnet.</p>
-          {/if}
         {/if}
-      </main>
-      <div class="product-range">
+    </main>
+    <div class="product-range">
         {#if searchQuery === ""}
-          <!-- Show the range only when not searching -->
-          {productsToShow}/{produkt.length} produkter vises
+            <!-- Show the range only when not searching -->
+            {productsToShow}/{produkt.length} produkter vises
         {/if}
-      </div>
-      
-      <div class="knapp">
+    </div>
+
+    <div class="knapp">
         {#if searchQuery === "" && productsToShow < produkt.length}
-          <!-- Show "Load More" button only when not searching -->
-          <button class="load-more-or-less" on:click={loadMore}>Last inn flere</button>
+            <!-- Show "Load More" button only when not searching -->
+            <button class="load-more-or-less" on:click={loadMore}
+                >Last inn flere</button
+            >
         {/if}
-      
+
         {#if searchQuery === "" && productsToShow > initialProductsToShow}
-          <!-- Show "Show Less" button only when not searching -->
-          <button class="load-more-or-less" on:click={showLess}>Vis mindre</button>
+            <!-- Show "Show Less" button only when not searching -->
+            <button class="load-more-or-less" on:click={showLess}
+                >Vis mindre</button
+            >
         {/if}
-      </div>
+    </div>
+
 
     <!-- Cart Modal -->
     <div class="cart-modal">
         <div class="cart-content">
             <h2>Handlevognen din:</h2>
             {#if cart > 0}
-            <div id="cart-content">
-                {#each cartItems as item (item.id)}
-                    <p>
-                        <select bind:value={item.quantity} on:change={() => updateQuantity(item.id, item.quantity)}>
-                            {#each Array(10) as _, i}
-                                <option value={i + 1}>{i + 1}</option>
-                            {/each}
-                        </select>
-                        {item.name}
-                        <button on:click={() => removeProductFromCart(item.id)}>Fjern</button>
-                    </p>
-                {/each}
-            </div>
+                <div id="cart-content">
+                    {#each cartItems as item (item.id)}
+                        <p>
+                            <select
+                                bind:value={item.quantity}
+                                on:change={() =>
+                                    updateQuantity(item.id, item.quantity)}
+                            >
+                                {#each Array(10) as _, i}
+                                    <option value={i + 1}>{i + 1}</option>
+                                {/each}
+                            </select>
+                            {item.name}
+                            <button
+                                on:click={() => removeProductFromCart(item.id)}
+                                >Fjern</button
+                            >
+                        </p>
+                    {/each}
+                </div>
                 <p id="cart-total">Sum: {pris},-</p>
                 <button
                     on:click={() =>
@@ -311,31 +345,47 @@ function updateProducts() {
         <div class="cart-content">
             <h2>Betaling:</h2>
             {#if cart > 0}
-            <div id="overskrift-kasse"><div class="kasse"><section style="flex: 3;"><b>Produkt</b></section><section><b>MVA.</b></section><section><b>Total</b></section></div></div>
-            {#each cartItems as item}
-            <div class="kasse">
-                <section style="flex:3">
-                    {#each produkt as product}
-                        {#if product.id === item.id}
-                            <img src={product.bilde} height="40px" alt={"Bilde av " + product.name} />
-                        {/if}
-                    {/each}
-                    {item.quantity}x {item.name}
-                </section>
-                <section>{item.pris * 0.25 * item.quantity}</section>
-                <section>{item.pris * item.quantity}</section>
-            </div>
-        {/each}
-        
-           
+                <div id="overskrift-kasse">
+                    <div class="kasse">
+                        <section style="flex: 3;"><b>Produkt</b></section>
+                        <section><b>MVA.</b></section>
+                        <section><b>Total</b></section>
+                    </div>
+                </div>
+                {#each cartItems as item}
+                    <div class="kasse">
+                        <section style="flex:3">
+                            {#each produkt as product}
+                                {#if product.id === item.id}
+                                    <img
+                                        src={product.bilde}
+                                        height="40px"
+                                        alt={"Bilde av " + product.name}
+                                    />
+                                {/if}
+                            {/each}
+                            {item.quantity}x {item.name}
+                        </section>
+                        <section>{item.pris * 0.25 * item.quantity}</section>
+                        <section>{item.pris * item.quantity}</section>
+                    </div>
+                {/each}
             {/if}
             <p>Sum: {pris},-</p>
-           <form>
-     
-        <input placeholder="Fornavn og etteravn" bind:value={navn} required /><br>
+            <form>
+                <input
+                    placeholder="Fornavn og etteravn"
+                    bind:value={navn}
+                    required
+                /><br />
 
-        <input type="email" placeholder="E-post" bind:value={email} required /><br>
-    </form>
+                <input
+                    type="email"
+                    placeholder="E-post"
+                    bind:value={email}
+                    required
+                /><br />
+            </form>
             <button
                 on:click={() =>
                     (document.querySelector(".cart-modal2").style.display =
@@ -384,56 +434,55 @@ function updateProducts() {
 </footer>
 
 <style>
-    .search-container{
+    .search-container {
         margin-left: 10px;
     }
 
-    .søkefelt{
-        width:10%;
+    .søkefelt {
+        width: 10%;
         transition: 0.3s;
         margin: 10px 5px 0px 10px;
     }
-    .søkefelt::content{
+    .søkefelt::content {
         width: 25%;
         transition: 0.3s;
-
     }
     input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    
-    box-sizing: border-box;
-}
-.kasse {
-    display: flex;
-    margin-bottom: 5px;
-    background-color: #f7f6f6;
-    padding: 10px;
-   
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
 
-#overskrift-kasse {
-    border-bottom: #252624 solid 2px;
-    padding-bottom: 5px;
-    margin-bottom: 10px;
-}
-    section{
-        flex:1
+        box-sizing: border-box;
+    }
+    .kasse {
+        display: flex;
+        margin-bottom: 5px;
+        background-color: #f7f6f6;
+        padding: 10px;
+
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #overskrift-kasse {
+        border-bottom: #252624 solid 2px;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+    section {
+        flex: 1;
     }
     form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    text-align: left;
-}
-    .knapp{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        text-align: left;
+    }
+    .knapp {
         display: flex;
         justify-content: center;
         align-items: center;
     }
-    
+
     .load-more-or-less {
         background-color: rgba(191, 227, 254, 0.688);
         align-content: center;
@@ -442,8 +491,8 @@ function updateProducts() {
         border-radius: 14px;
         transition: 0.4s;
         color: #252624;
-        margin-bottom:20px;
-        width:20%;
+        margin-bottom: 20px;
+        width: 20%;
         padding: 20px;
     }
     .load-more-or-less:hover {
@@ -487,11 +536,28 @@ function updateProducts() {
     }
 
     header {
-        background: linear-gradient(45deg,rgb(98, 255, 242),rgb(192, 242, 123),rgb(93, 242, 93), rgb(98, 255, 242) );
+        background: linear-gradient(
+            45deg,
+            rgb(98, 255, 242),
+            rgb(192, 242, 123),
+            rgb(93, 242, 93),
+            rgb(98, 255, 242)
+        );
         color: rgb(61, 25, 91);
         text-align: center;
         padding: 10px;
-        font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+        font-family:
+            system-ui,
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            Roboto,
+            Oxygen,
+            Ubuntu,
+            Cantarell,
+            "Open Sans",
+            "Helvetica Neue",
+            sans-serif;
     }
 
     nav {
@@ -555,7 +621,7 @@ function updateProducts() {
         top: 35px;
         right: 10px;
         color: #262424;
-        background-color: rgba(0,0,0,0.2);
+        background-color: rgba(0, 0, 0, 0.2);
         padding: 5px;
         font-size: 12px;
         cursor: pointer;
@@ -584,7 +650,6 @@ function updateProducts() {
         background: rgba(255, 255, 255, 1);
         justify-content: center;
         align-items: center;
-       
     }
 
     .cart-content {
@@ -597,6 +662,5 @@ function updateProducts() {
 
     .cart-logo {
         width: 50px;
-        
     }
 </style>
