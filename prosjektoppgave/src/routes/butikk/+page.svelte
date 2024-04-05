@@ -103,19 +103,23 @@
     $: produktSomSkalVises = produkt.slice(0,productsToShow)
     let searchQuery = "";
     let searchedProducts = [];
+    let erKLikket = false;
 
     function searchProducts() {
+        if(searchQuery!=""){
+        erKLikket = true
         searchedProducts = produkt.filter((product) =>
             product.name.toLowerCase().includes(searchQuery.toLowerCase()),
         );
 
         // Reset productsToShow when a search is performed
-        productsToShow = initialProductsToShow;
+        productsToShow = initialProductsToShow;}
     }
 
     function resetSearch() {
         searchQuery = "";
         searchedProducts = [];
+        erKLikket = false
     }
     function addProductToCart(product) {
         let existingItem = cartItems.find((item) => item.id === product.id);
@@ -143,6 +147,7 @@
     }
 
     function updateCart() {
+        cartItems = cartItems
         cart = cartItems.reduce((total, item) => total + item.quantity, 0);
         pris = cartItems.reduce(
             (total, item) => total + item.quantity * item.pris,
@@ -242,19 +247,9 @@
     </div>
 
     <main>
-        {#if searchQuery === ""}
-            {#each produktSomSkalVises as product (product.id)}
-                <!-- Display all products -->
-                <div class="product">
-                    <h2>{product.name}</h2>
-                    <img src={product.bilde} alt={"Bilde av " + product.name} />
-                    <p>{product.beskrivelse}</p>
-                    <p>Pris: {product.pris},-</p>
-                    <button on:click={() => addProductToCart(product)}
-                        >Legg til i handlevogna</button
-                    >
-                </div>
-            {/each}
+        {#if searchedProducts.length === 0 && erKLikket}
+            <p>Ingen produkter funnet.</p>
+           
         {:else if searchedProducts.length > 0}
             {#each searchedProducts as product (product.id)}
                 <!-- Display the matching products -->
@@ -269,7 +264,18 @@
                 </div>
             {/each}
         {:else}
-            <p>Ingen produkter funnet.</p>
+        {#each produktSomSkalVises as product (product.id)}
+        <!-- Display all products -->
+        <div class="product">
+            <h2>{product.name}</h2>
+            <img src={product.bilde} alt={"Bilde av " + product.name} />
+            <p>{product.beskrivelse}</p>
+            <p>Pris: {product.pris},-</p>
+            <button on:click={() => addProductToCart(product)}
+                >Legg til i handlevogna</button
+            >
+        </div>
+    {/each}
         {/if}
     </main>
     <div class="product-range">
