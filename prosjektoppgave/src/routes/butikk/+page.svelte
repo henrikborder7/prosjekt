@@ -100,27 +100,35 @@
             bilde: "https://thumblr.uniid.it/product/29044/aca0f8d5f6d3.jpg",
         },
     ];
-    $: produktSomSkalVises = produkt.slice(0,productsToShow)
+    $: produktSomSkalVises = produkt.slice(0, productsToShow);
     let searchQuery = "";
     let searchedProducts = [];
     let erKLikket = false;
 
     function searchProducts() {
-        if(searchQuery!=""){
-        erKLikket = true
-        searchedProducts = produkt.filter((product) =>
-            product.name.toLowerCase().includes(searchQuery.toLowerCase()),
-        );
+        if (searchQuery != "") {
+            erKLikket = true;
+            searchedProducts = produkt.filter((product) =>
+                product.name.toLowerCase().includes(searchQuery.toLowerCase()),
+            );
 
-        // Reset productsToShow when a search is performed
-        productsToShow = initialProductsToShow;}
+            // Reset productsToShow when a search is performed
+            productsToShow = initialProductsToShow;
+        }
     }
+
+    function handleSearch(event) {
+    if (event.key === "Enter") {
+      searchProducts();
+    }
+  }
 
     function resetSearch() {
         searchQuery = "";
         searchedProducts = [];
-        erKLikket = false
+        erKLikket = false;
     }
+
     function addProductToCart(product) {
         let existingItem = cartItems.find((item) => item.id === product.id);
 
@@ -147,7 +155,7 @@
     }
 
     function updateCart() {
-        cartItems = cartItems
+        cartItems = cartItems;
         cart = cartItems.reduce((total, item) => total + item.quantity, 0);
         pris = cartItems.reduce(
             (total, item) => total + item.quantity * item.pris,
@@ -166,7 +174,7 @@
     const productsPerLoad = 4; // Number of products to load on each "Load More" click
 
     function loadMore() {
-        console.log(searchedProducts.length)
+        console.log(searchedProducts.length);
         if (
             productsToShow + productsPerLoad <= searchedProducts.length ||
             searchedProducts.length === 0
@@ -186,21 +194,19 @@
     }
 
     function updateProducts() {
-        console.log("searched products "+searchedProducts)
-        console.log("searchedProducts.length "+searchedProducts.length)
-        console.log("produkt.length "+produkt.length)
+        console.log("searched products " + searchedProducts);
+        console.log("searchedProducts.length " + searchedProducts.length);
+        console.log("produkt.length " + produkt.length);
         const totalProducts =
             searchedProducts.length > 0
                 ? searchedProducts.length
                 : produkt.length;
         const rangeText = `${Math.min(productsToShow, totalProducts)}/${totalProducts} produkter vises`;
-        console.log("total products "+totalProducts)
+        console.log("total products " + totalProducts);
 
         document.querySelector(".product-range").innerText = rangeText;
-        console.log("rangeText "+rangeText)
+        console.log("rangeText " + rangeText);
     }
-
-
 </script>
 
 <header>
@@ -219,6 +225,7 @@
         <a href="tabell">Tabell</a>
         <a href="kamper">Kamper</a>
         <a href="nyheter">Nyhetsbrev </a>
+        <a href="minispill">Spill</a>
         <div
             class="cart-indicator"
             on:click={() =>
@@ -238,6 +245,7 @@
         <input
             class="søkefelt"
             bind:value={searchQuery}
+            on:keyup={handleSearch}
             placeholder="Søk i produkter..."
         />
         <button on:click={searchProducts}>Søk</button>
@@ -249,7 +257,6 @@
     <main>
         {#if searchedProducts.length === 0 && erKLikket}
             <p>Ingen produkter funnet.</p>
-           
         {:else if searchedProducts.length > 0}
             {#each searchedProducts as product (product.id)}
                 <!-- Display the matching products -->
@@ -264,26 +271,24 @@
                 </div>
             {/each}
         {:else}
-        {#each produktSomSkalVises as product (product.id)}
-        <!-- Display all products -->
-        <div class="product">
-            <h2>{product.name}</h2>
-            <img src={product.bilde} alt={"Bilde av " + product.name} />
-            <p>{product.beskrivelse}</p>
-            <p>Pris: {product.pris},-</p>
-            <button on:click={() => addProductToCart(product)}
-                >Legg til i handlevogna</button
-            >
-        </div>
-    {/each}
+            {#each produktSomSkalVises as product (product.id)}
+                <!-- Display all products -->
+                <div class="product">
+                    <h2>{product.name}</h2>
+                    <img src={product.bilde} alt={"Bilde av " + product.name} />
+                    <p>{product.beskrivelse}</p>
+                    <p>Pris: {product.pris},-</p>
+                    <button on:click={() => addProductToCart(product)}
+                        >Legg til i handlevogna</button
+                    >
+                </div>
+            {/each}
+            <div class="product-range">
+                <!-- Show the range only when not searching -->
+                {productsToShow}/{produkt.length} produkter vises
+            </div>
         {/if}
     </main>
-    <div class="product-range">
-        {#if searchQuery === ""}
-            <!-- Show the range only when not searching -->
-            {productsToShow}/{produkt.length} produkter vises
-        {/if}
-    </div>
 
     <div class="knapp">
         {#if searchQuery === "" && productsToShow < produkt.length}
@@ -300,7 +305,6 @@
             >
         {/if}
     </div>
-
 
     <!-- Cart Modal -->
     <div class="cart-modal">

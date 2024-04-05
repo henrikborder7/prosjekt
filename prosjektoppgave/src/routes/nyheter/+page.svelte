@@ -10,6 +10,7 @@
     let digital =false
     let fysisk =false
     let showWarning=true
+
     function hentPoststed(postnummer) {
         for (let i = 0; i < json.length; i++) {
             if (json[i].er === postnummer) {
@@ -18,6 +19,7 @@
         }
         return "";
     }
+
 </script>
 <Navigasjon />
 <body>
@@ -64,21 +66,7 @@
         justify-content: center;
         min-height: 100vh;
     }
-
-    nav {
-        background-color: #333;
-        padding: 10px;
-        color: white;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    nav a {
-        color: white;
-        margin: 0 10px;
-        text-decoration: none;
-    }
-
+    
     form {
         background-color: #fff;
         border-radius: 8px;

@@ -108,29 +108,39 @@
 <body>
     <Navigasjonsbar />
     {#if visDiv === 1}
-        <div id="div1" on:click={visSpiller1} on:keypress={visSpiller1} style="cursor: pointer;"></div>
+        <div
+            id="div1"
+            on:click={visSpiller1}
+            on:keypress={visSpiller1}
+            style="cursor: pointer;"
+        ></div>
     {/if}
 
     {#if visDiv === 2}
         <div id="div2" on:click={visAlleSpillere} style="cursor: pointer;">
             {#if sorterteSpillere[nåværendeSpillerIndex]}
-                <div id="tekst_div2">
                     <p id="stor_skrift_div2">
-                        <b>
-                            {sorterteSpillere[nåværendeSpillerIndex].målPoeng}
-                        </b>
+                        {sorterteSpillere[nåværendeSpillerIndex].målPoeng}
                     </p>
-                </div>
                 <img
                     src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${sorterteSpillere[nåværendeSpillerIndex].bilde}.png`}
                     alt="Spillerbilde mangler :("
                 />
                 <p id="navn">{sorterteSpillere[nåværendeSpillerIndex].navn}</p>
-                <p>{sorterteSpillere[nåværendeSpillerIndex].mål}</p>
-                <p>{sorterteSpillere[nåværendeSpillerIndex].assist}</p>
+                <div id="assist_og_maal">
+                    <div id="maal">
+                        <p>Mål</p>
+                        <p>{sorterteSpillere[nåværendeSpillerIndex].mål}</p>
+                    </div>
+                    <div id="assist">
+                        <p>Assist</p>
+                    <p>{sorterteSpillere[nåværendeSpillerIndex].assist}</p>
+                    </div>
+
+                </div>
                 <button on:click={hoppOver}>Hopp over</button>
             {/if}
-        </div>
+        </div>  
     {/if}
     {#if visDiv === 3}
         <div id="div3" on:click={visSpiller1} style="cursor: pointer;">
@@ -155,8 +165,8 @@
 </body>
 
 <style>
-    body{
-        margin:0;
+    body {
+        margin: 0;
     }
     #hvit_tekst {
         color: white;
@@ -190,9 +200,6 @@
         padding: 0;
         position: absolute;
     }
-    #stor_skrift_div2 {
-        font-size: 20px;
-    }
 
     #div1 {
         width: 400px;
@@ -204,28 +211,55 @@
 
     #div2 {
         width: 400px;
-        height: 625px;
+        height: 700px;
         background-color: blue;
         display: grid;
-        background-image: url("https://cardsplug.com/cdn/shop/products/S23ShinyGoldBlank_13658bf6-feff-4b5e-b72f-3b942d911e1d.png?v=1663878408");
+        background-image: url("https://pdf-service-static.s3.amazonaws.com/static/layout-images/cardstar/thumbnails/rare-gold-24.png");
         background-repeat: no-repeat;
         background-size: contain;
         gap: 0;
+        grid-template-columns: repeat(50, 1fr);
+  grid-template-rows: repeat(50, 1fr);
+        
     }
     #div2 img {
         object-fit: cover;
         margin: 0 auto;
-        width: auto;
-
-        padding-top: 5px;
+        width: 240px;
+        padding-top: 50px;
+        grid-column: span 45;
+        border: 2px solid red;
     }
-    #tekst_div2 {
-        margin: 0;
-        padding: 0;
-        position: absolute;
+    #stor_skrift_div2 {       
+        font-size: 50px;
+        grid-column: span 5;
+        grid-row: span 1;
+        border: 2px solid red;
+    }
+    #navn{
+    grid-column: span 50;
+    grid-row: span 1;
+    border: 2px solid red;
+    }
+    #assist_og_maal{
         display: flex;
+        gap: 50px;
+        grid-column: span 50;
+    grid-row: span 25;
+    border: 2px solid red;
+    }
+    #assist{
+        display: flex;
+        gap: 5px;
         flex-direction: column;
-        padding: 5px;
+    }
+    #maal{
+        display: flex;
+        gap: 5px;
+        flex-direction: column;
+    }
+    button{
+        grid-column: span 50;
     }
     #div3 {
         width: 400px;
