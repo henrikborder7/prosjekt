@@ -14,7 +14,7 @@
         if (visDiv === 1) {
             visDiv = 2;
             genererTilfeldigeSpillere();
-            hentSpillereOgVisDiv1();
+           hentSpillereOgVisDiv1();
         } else {
             visDiv = 1;
             alleSpillereVist = false;
@@ -45,10 +45,9 @@
         for (let i = 0; i < tilfeldigeSpillere.length; i++) {
             for (let j = 0; j < json.elements.length; j++) {
                 if (json.elements[j].id === tilfeldigeSpillere[i]) {
+                    //legg inn en if som sjekker om navnet er lenger enn, si 20 bokstaver, og da viser web_name i steden. arrayfunksjon(?)
                     let navn =
-                        json.elements[j].first_name +
-                        " " +
-                        json.elements[j].second_name;
+                        json.elements[j].web_name;
                     let maal = json.elements[j].goals_scored;
                     let assist = json.elements[j].assists;
                     let maalPoeng = maal + assist;
@@ -236,7 +235,6 @@
         height: 600px;
     } 
     #stor_skrift_div2 {
-        border: 2px solid red;
         font-size: 50px;
         display: flex;
         justify-content: center;
@@ -249,28 +247,27 @@
     }
 
     #div2 img {
-        border: 2px solid red;
         width: 240px;
         min-height: 302px;
         padding-top: 40px;
     }
     #navn {
-        border: 2px solid red;
         grid-column: 1; /* Fyller første kolonne */
         display: flex;
         justify-content: center;
+        padding-top: 5px;
+        font-size: 30px ;
     }
     #assist_og_maal {
-        border: 2px solid red;
         display: flex;
         justify-content: center;
         gap: 40px;
     }
     #assist {
-        border: 2px solid red; 
+        text-align: right;
     }
     #maal {
-        border: 2px solid red;
+        text-align: right;
     }
     #knapp {
         height: 100%;
