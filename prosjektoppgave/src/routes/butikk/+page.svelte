@@ -207,6 +207,8 @@
         document.querySelector(".product-range").innerText = rangeText;
         console.log("rangeText " + rangeText);
     }
+    
+
 </script>
 
 <header>
@@ -352,6 +354,7 @@
             {/if}
         </div>
     </div>
+
 
     <div class="cart-modal2">
         <div class="cart-content">

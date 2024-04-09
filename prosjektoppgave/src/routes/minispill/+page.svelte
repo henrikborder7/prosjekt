@@ -107,6 +107,7 @@
 
 <body>
     <Navigasjonsbar />
+    <div id="hoved_div">
     {#if visDiv === 1}
         <div
             id="div1"
@@ -119,13 +120,16 @@
     {#if visDiv === 2}
         <div id="div2" on:click={visAlleSpillere} style="cursor: pointer;">
             {#if sorterteSpillere[nåværendeSpillerIndex]}
-                    <p id="stor_skrift_div2">
+                <div id="stor_skrift_div2">
+                    <p>
                         {sorterteSpillere[nåværendeSpillerIndex].målPoeng}
                     </p>
+              
                 <img
                     src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${sorterteSpillere[nåværendeSpillerIndex].bilde}.png`}
                     alt="Spillerbilde mangler :("
-                />
+                />   </div>
+                
                 <p id="navn">{sorterteSpillere[nåværendeSpillerIndex].navn}</p>
                 <div id="assist_og_maal">
                     <div id="maal">
@@ -134,37 +138,42 @@
                     </div>
                     <div id="assist">
                         <p>Assist</p>
-                    <p>{sorterteSpillere[nåværendeSpillerIndex].assist}</p>
+                        <p>{sorterteSpillere[nåværendeSpillerIndex].assist}</p>
                     </div>
-
                 </div>
-                <button on:click={hoppOver}>Hopp over</button>
+                <div id="knapp">
+            
+                <button on:click={hoppOver}>Hopp over</button></div>
             {/if}
-        </div>  
+        </div>
     {/if}
     {#if visDiv === 3}
         <div id="div3" on:click={visSpiller1} style="cursor: pointer;">
             <p id="hvit_tekst">Totale målpoeng: {sum}</p>
             {#each sorterteSpillere as spiller}
-                <div id="kort">
+                <div id="kort">                        <p id="stor_skrift_div3"><b>{spiller.målPoeng}</b></p>
+                   
                     <div id="test">
-                        <p id="stor_skrift_div3"><b>{spiller.målPoeng}</b></p>
-                        <p>{spiller.mål}</p>
-                        <p>{spiller.assist}</p>
-                    </div>
+
                     <img
                         src={`https://resources.premierleague.com/premierleague/photos/players/110x140/p${spiller.bilde}.png`}
                         alt="Spillerbilde mangler :("
-                    />
+                    /> 
+                </div>
 
                     <p>{spiller.navn}</p>
                 </div>
             {/each}
         </div>
     {/if}
+</div>
 </body>
 
 <style>
+    #hoved_div{
+        display: flex;
+        justify-content: center;
+    }
     body {
         margin: 0;
     }
@@ -178,7 +187,7 @@
     }
     #kort {
         display: grid;
-        grid-template-rows: auto auto auto auto auto auto;
+
         padding: 5px;
         text-align: center;
         border-radius: 5px;
@@ -191,75 +200,86 @@
         object-fit: cover;
         margin: 0 auto;
         width: auto;
-        height: 110px;
+        height: 91px;
         padding-top: 5px;
     }
 
     #test {
-        margin: 0;
-        padding: 0;
+        font-size: 16px;
+        display: flex;
+        padding: 10px 0 0 0;
+
+    }
+    #stor_skrift_div3{
         position: absolute;
+        border: 2px solid yellowgreen;
+        padding: 5px 5px 0 0;
     }
 
     #div1 {
         width: 400px;
-        height: 625px;
-        background-image: url("https://cdn.futwiz.com/assets/img/packs/fifa22-pack.png?r=4");
+        height: 600px;
+        background-image: url("https://www.fifplay.com/img/fifa/22/packs/gold-pack.png");
         background-repeat: no-repeat;
         background-size: contain;
+        margin: 10px 0 0 0
     }
 
     #div2 {
-        width: 400px;
-        height: 700px;
-        background-color: blue;
-        display: grid;
         background-image: url("https://pdf-service-static.s3.amazonaws.com/static/layout-images/cardstar/thumbnails/rare-gold-24.png");
         background-repeat: no-repeat;
         background-size: contain;
-        gap: 0;
-        grid-template-columns: repeat(50, 1fr);
-  grid-template-rows: repeat(50, 1fr);
-        
-    }
-    #div2 img {
-        object-fit: cover;
-        margin: 0 auto;
-        width: 240px;
-        padding-top: 50px;
-        grid-column: span 45;
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        height: 600px;
+    } 
+    #stor_skrift_div2 {
         border: 2px solid red;
-    }
-    #stor_skrift_div2 {       
         font-size: 50px;
-        grid-column: span 5;
-        grid-row: span 1;
+        display: flex;
+        justify-content: center;
+        padding: 10px 0 0 0;
+
+    }
+    #stor_skrift_div2 p{
+        padding: 20px 0 0 10px;
+        width: 50px;
+    }
+
+    #div2 img {
+        border: 2px solid red;
+        width: 240px;
+        min-height: 302px;
+        padding-top: 40px;
+    }
+    #navn {
+        border: 2px solid red;
+        grid-column: 1; /* Fyller første kolonne */
+        display: flex;
+        justify-content: center;
+    }
+    #assist_og_maal {
+        border: 2px solid red;
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+    }
+    #assist {
+        border: 2px solid red; 
+    }
+    #maal {
         border: 2px solid red;
     }
-    #navn{
-    grid-column: span 50;
-    grid-row: span 1;
-    border: 2px solid red;
-    }
-    #assist_og_maal{
+    #knapp {
+        height: 100%;
         display: flex;
-        gap: 50px;
-        grid-column: span 50;
-    grid-row: span 25;
-    border: 2px solid red;
+        justify-content: center;
+        align-items: flex-end;
     }
-    #assist{
-        display: flex;
-        gap: 5px;
-        flex-direction: column;
-    }
-    #maal{
-        display: flex;
-        gap: 5px;
-        flex-direction: column;
-    }
-    button{
-        grid-column: span 50;
+    #knapp button{
+        height: 20px;
     }
     #div3 {
         width: 400px;
